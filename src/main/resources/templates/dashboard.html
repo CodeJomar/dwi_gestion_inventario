@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultiSupply S.A. - Dashboard</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" th:href="@{/styles/globals.css}">
+  <link rel="stylesheet" th:href="@{/styles/dashboard.css}">
+</head>
+
+<body class="bg-background text-foreground">
+
+  <div id="inventory-system" class="min-h-screen">
+
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div id="tabs-container" class="space-y-6">
+
+        <nav th:replace="~{fragments/nav :: nav-dashboard}"></nav>
+
+        <div id="tab-dashboard-content" data-tab-content="dashboard" class="tabs-content tabs-content-active space-y-6">
+          <div id="stats-cards-container" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="h-5 w-5 text-destructive">
+                    <path
+                      d="m21.73 18.23-10-17a1.99 1.99 0 0 0-3.46 0l-10 17a1.99 1.99 0 0 0 1.73 2.77h20a1.99 1.99 0 0 0 1.73-2.77z" />
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
+                  </svg>
+                  Productos con Stock Bajo
+                </h2>
+                <p class="card-description">Productos que necesitan reabastecimiento urgente</p>
+              </div>
+              <div id="low-stock-list" class="card-content space-y-4">
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="h-5 w-5 text-primary">
+                    <circle cx="8" cy="21" r="1" />
+                    <circle cx="19" cy="21" r="1" />
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" />
+                  </svg>
+                  Órdenes Recientes
+                </h2>
+                <p class="card-description">Últimas órdenes procesadas en el sistema</p>
+              </div>
+              <div id="recent-orders-list" class="card-content space-y-4">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script th:src="@{/scripts/main.js}"></script>
+  <script th:src="@{/scripts/dashboard.js}"></script>
 </body>
+
 </html>

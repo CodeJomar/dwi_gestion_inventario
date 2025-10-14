@@ -1,0 +1,82 @@
+<form id="registerForm" class="space-y-5" th:fragment="formulario-registro" th:action="@{/registro}"
+  th:object="${usuario}" method="post" novalidate>
+
+  <div>
+    <label class="block text-muted-foreground mb-1 font-medium text-sm sr-only" for="name">Usuario</label>
+    <div class="flex items-center border border-border rounded-xl overflow-hidden bg-input">
+      <svg class="w-5 h-5 ml-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+
+      <input th:field="*{username}" id="name" type="text"
+        class="w-full bg-transparent px-4 py-3 text-foreground placeholder-gray-400 outline-none focus:ring-0"
+        placeholder="Ej. Erwin" required>
+    </div>
+
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-500 text-xs -m-px"></p>
+  </div>
+
+
+  <div>
+    <label class="block text-muted-foreground mb-1 font-medium text-sm sr-only" for="email">Correo</label>
+
+    <div class="flex items-center border border-border rounded-xl overflow-hidden bg-input">
+      <svg class="w-5 h-5 ml-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 4v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7"></path>
+      </svg>
+
+      <input th:field="*{email}" id="email" type="email"
+        class="w-full bg-transparent px-4 py-3 text-foreground placeholder-gray-400 outline-none focus:ring-0"
+        placeholder="Ej. correo@dominio.com" required>
+    </div>
+
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs m-0"></p>
+  </div>
+
+  <div>
+    <label class="block text-muted-foreground mb-1 font-medium text-sm sr-only" for="password">Contraseña</label>
+    <div class="relative flex items-center border border-border rounded-xl overflow-hidden bg-input">
+      <svg class="w-5 h-5 ml-4 text-muted-foreground flex-shrink-0" fill="none" stroke="currentColor"
+        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z">
+        </path>
+      </svg>
+
+      <input th:field="*{password}" id="password" type="password"
+        class="w-full bg-transparent px-4 py-3 text-foreground placeholder-gray-400 outline-none focus:ring-0 pr-12"
+        placeholder="Ej. Usu4ri_0" required>
+
+      <button type="button" id="togglePassword"
+        class="absolute right-0 top-0 h-full w-12 flex items-center justify-center text-muted-foreground hover:text-primary transition-colors focus:outline-none">
+        <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+          </path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+          </path>
+        </svg>
+      </button>
+    </div>
+
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs m-0"></p>
+
+  </div>
+
+  <button type="submit"
+    class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg shadow-primary/40 mt-6">
+    <span class="flex items-center justify-center">
+      Registrarse
+      <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+      </svg>
+    </span>
+  </button>
+</form>

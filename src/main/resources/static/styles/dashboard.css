@@ -1,0 +1,14 @@
+.progress-container {
+  position: relative;
+  height: 0.5rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: var(--border);
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.6s ease;
+  background-color: var(--destructive);
+}

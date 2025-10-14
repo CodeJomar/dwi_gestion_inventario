@@ -1,3 +1,181 @@
-<nav>
+<div th:fragment="nav-dashboard" class="tabs-list w-full lg:w-[600px]">
+  <button id="tab-dashboard-trigger" data-tab="dashboard" class="tabs-trigger tabs-active"
+    onclick="switchTab('dashboard')">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="M10 20V8" />
+      <path d="M14 20V4" />
+      <path d="M18 20v-4" />
+      <path d="M6 20v-8" />
+    </svg>
+    Dashboard
+  </button>
+  <a th:href="@{/auth/productos}" class="tabs-trigger">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="m7.5 4.27 9 5.15" />
+      <path d="m21 8-9 5.15-9-5.15" />
+      <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
+      <path d="m12 22.5V13" />
+    </svg>
+    Productos
+  </a>
+  <a th:href="@{/auth/ordenes}" class="tabs-trigger">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <circle cx="8" cy="21" r="1" />
+      <circle cx="19" cy="21" r="1" />
+      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" />
+    </svg>
+    Órdenes
+  </a>
+  <a th:href="@{/auth/reportes}" class="tabs-trigger">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
+    </svg>
+    Reportes
+  </a>
+</div>
 
-</nav>
+
+<div th:fragment="nav-productos" class="tabs-list w-full lg:w-[600px]">
+
+  <a th:href="@{/auth/dashboard}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="M10 20V8" />
+      <path d="M14 20V4" />
+      <path d="M18 20v-4" />
+      <path d="M6 20v-8" />
+    </svg>
+    Dashboard
+  </a>
+  <button id="tab-products-trigger" data-tab="products" class="tabs-trigger tabs-active"
+    onclick="switchTab('products')">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="m7.5 4.27 9 5.15" />
+      <path d="m21 8-9 5.15-9-5.15" />
+      <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
+      <path d="m12 22.5V13" />
+    </svg>
+    Productos
+  </button>
+  <a th:href="@{/auth/ordenes}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <circle cx="8" cy="21" r="1" />
+      <circle cx="19" cy="21" r="1" />
+      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" />
+    </svg>
+    Órdenes
+  </a>
+  <a th:href="@{/auth/reportes}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
+    </svg>
+    Reportes
+  </a>
+</div>
+
+<div th:fragment="nav-ordenes" class="tabs-list w-full lg:w-[600px]">
+
+  <a th:href="@{/auth/dashboard}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="M10 20V8" />
+      <path d="M14 20V4" />
+      <path d="M18 20v-4" />
+      <path d="M6 20v-8" />
+    </svg>
+    Dashboard
+  </a>
+
+  <a th:href="@{/auth/productos}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="m7.5 4.27 9 5.15" />
+      <path d="m21 8-9 5.15-9-5.15" />
+      <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
+      <path d="m12 22.5V13" />
+    </svg>
+    Productos
+  </a>
+
+  <button id="tab-orders-trigger" data-tab="orders" class="tabs-trigger tabs-active" onclick="switchTab('orders')">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <circle cx="8" cy="21" r="1" />
+      <circle cx="19" cy="21" r="1" />
+      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" />
+    </svg>
+    Órdenes
+  </button>
+
+  <a th:href="@{/auth/reportes}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
+    </svg>
+    Reportes
+  </a>
+</div>
+
+
+<div th:fragment="nav-reportes" class="tabs-list w-full lg:w-[600px]">
+
+  <a th:href="@{/auth/dashboard}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="M10 20V8" />
+      <path d="M14 20V4" />
+      <path d="M18 20v-4" />
+      <path d="M6 20v-8" />
+    </svg>
+    Dashboard
+  </a>
+  <a th:href="@{/auth/productos}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <path d="m7.5 4.27 9 5.15" />
+      <path d="m21 8-9 5.15-9-5.15" />
+      <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
+      <path d="m12 22.5V13" />
+    </svg>
+    Productos
+  </a>
+  <a th:href="@{/auth/ordenes}" class="tabs-trigger">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <circle cx="8" cy="21" r="1" />
+      <circle cx="19" cy="21" r="1" />
+      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" />
+    </svg>
+    Órdenes
+  </a>
+  <button id="tab-reports-trigger" data-tab="reports" class="tabs-trigger tabs-active" onclick="switchTab('reports')">
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
+    </svg>
+    Reportes
+  </button>
+</div>

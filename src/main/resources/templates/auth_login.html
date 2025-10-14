@@ -1,10 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultiSupply S.A. - Gestión de Inventario</title>
+
+  <th:block th:replace="~{fragments/links :: cdnLinks-up}"></th:block>
+
+  <link rel="stylesheet" th:href="@{/styles/auth.css}">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': 'var(--primary)',
+            'accent': 'var(--accent)',
+            'background': 'var(--background)',
+            'foreground': 'var(--foreground)',
+            'card': 'var(--card)',
+            'input': 'var(--input)',
+            'ring': 'var(--ring)',
+            'muted-foreground': 'var(--muted-foreground)',
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
+
+<body class="min-h-screen login-bg-light flex items-center justify-center">
+  <div class="login-box-light bg-card rounded-2xl flex w-[900px] max-w-5xl overflow-hidden shadow-2xl">
+
+    <div class="w-2/5 p-10 flex flex-col justify-center light-form-panel">
+      <div class="flex flex-col items-center mb-2">
+        <svg class="w-10 h-10 text-primary border-2 border-primary rounded-full p-1 mb-2" fill="none"
+          stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+        <h3 class="text-2xl font-bold text-foreground">Acceso al Sistema</h3>
+        <div class="flex flex-col items-center">
+          <p class="text-center text-muted-foreground text-xs mt-2 text-wrap">Ingresa tu nombre de usuario y contraseña
+            para
+            acceder
+            al sistema</p>
+        </div>
+      </div>
+
+
+
+      <div th:replace="~{content/auth/formulario_login :: formulario-login}"></div>
+
+      <p class="text-center text-muted-foreground text-xs mt-6">
+        ¿No tienes cuenta?
+        <a th:href="@{/registro}" class="text-primary font-semibold hover:underline transition-colors">Regístrate</a>
+      </p>
+    </div>
+
+    <div class="w-3/5 flex flex-col items-center justify-center p-16 light-welcome-panel">
+
+      <div class="max-w-xl text-center">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight mb-4 text-primary">
+          ¡Bienvenido!
+        </h2>
+        <p class="text-lg mb-10 text-foreground opacity-70">
+          Tu sistema de gestión de inventario, ahora más ágil y eficiente. Accede para continuar.
+        </p>
+
+        <div class="flex justify-center items-center h-72">
+          <dotlottie-wc src="https://lottie.host/5f2e46ff-5361-4e2a-826e-60e3816e7707/gPOKd5lERS.lottie"
+            style="width: 100%; height: 100%; max-width: 350px;" autoplay loop></dotlottie-wc>
+        </div>
+      </div>
+
+      <div class="text-muted-foreground text-sm flex items-center mt-12">
+        <svg class="w-6 h-6 mr-2 text-primary" fill="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 21h20L12 2zm0 14a2 2 0 110-4 2 2 0 010 4z" />
+        </svg>
+        Sistema de Gestión de Inventarios para MultiSupply S.A.
+      </div>
+
+    </div>
+  </div>
+
+  <div th:replace="~{content/auth/modal_password :: modal-password}"></div>
+
+  <script th:src="@{/scripts/auth.js}"></script>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(window.location.search);
+
+      // Registro exitoso
+      if (params.has('registroExitoso')) {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Registro exitoso!',
+          text: 'Ahora puedes iniciar sesión.',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+
+      // Error de login
+      if (params.has('error')) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Inicio de sesión fallido',
+          text: 'Correo o contraseña incorrectos.',
+          confirmButtonText: 'Intentar de nuevo'
+        }).then(() => {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+
+      // Cierre de sesión
+      if (params.has('logoutExitoso')) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Sesión finalizada',
+          text: 'Has cerrado sesión correctamente.',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+
+      // Cambio de contraseña exitoso
+      if (params.has('passwordExito')) {
+        const mensaje = params.get("mensaje") || "Contraseña actualizada correctamente.";
+        Swal.fire({
+          icon: 'success',
+          title: '¡Listo!',
+          text: mensaje,
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+
+      // Error al cambiar contraseña
+      if (params.has('passwordError')) {
+        const mensaje = params.get("mensaje") || "Error al actualizar la contraseña.";
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: mensaje,
+          confirmButtonText: 'Intentar de nuevo'
+        }).then(() => {
+          const modal = document.getElementById("passwordResetModal");
+          if (modal) {
+            modal.classList.remove("hidden", "modal-hidden");
+            modal.classList.add("modal-visible");
+          }
+          window.history.replaceState({}, document.title, window.location.pathname);
+        });
+      }
+    });
+    /*]]>*/
+  </script>
+
+  <!-- Mantener modal abierto -->
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const mantenerModalPassword = [[${ mantenerModalPassword }]] || false;
+    if (mantenerModalPassword) {
+      const modal = document.getElementById("passwordResetModal");
+      if (modal) {
+        modal.classList.remove("hidden", "modal-hidden");
+        modal.classList.add("modal-visible");
+      }
+    }
+    /*]]>*/
+  </script>
 
 </body>
+
 </html>

@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultiSupply S.A. - Reportes</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" th:href="@{/styles/globals.css}">
+  <link rel="stylesheet" th:href="@{/styles/reportes.css}">
+</head>
+
+<body class="bg-background text-foreground">
+
+  <div id="inventory-system" class="min-h-screen">
+
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div id="tabs-container" class="space-y-6">
+
+        <nav th:replace="~{fragments/nav :: nav-reportes}"></nav>
+
+        <div id="tab-reports-content" data-tab-content="reports" class="tabs-content tabs-content-active">
+          <div id="reports-content" class="space-y-6">
+            <h1 class="text-3xl font-bold mb-6 text-foreground">Panel de Reportes Empresariales</h1>
+            <div id="metrics-container" class="space-y-6">
+              <div id="key-metrics" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              </div>
+
+              <div id="available-reports-card" class="card">
+              </div>
+
+              <div id="quick-actions" class="grid gap-4 md:grid-cols-3">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script th:src="@{/scripts/main.js}"></script>
+  <script th:src="@{/scripts/reportes.js}"></script>
 </body>
+
 </html>
