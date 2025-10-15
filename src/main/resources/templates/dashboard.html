@@ -17,61 +17,175 @@
 
     <header th:replace="~{fragments/header :: header}"></header>
 
-    <main class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-      <div id="tabs-container" class="space-y-6">
+      <main class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+          <div id="tabs-container" class="space-y-6">
 
-        <nav th:replace="~{fragments/nav :: nav-dashboard}"></nav>
+              <nav th:replace="~{fragments/nav :: nav-dashboard}"></nav>
 
-        <div id="tab-dashboard-content" data-tab-content="dashboard" class="tabs-content tabs-content-active space-y-6">
-          <div id="stats-cards-container" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div id="tab-dashboard-content" data-tab-content="dashboard" class="tabs-content tabs-content-active space-y-6">
+
+                  <div id="stats-cards-container" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+
+                      <div class="card hover:shadow-lg transition-shadow">
+                          <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+                              <h3 class="card-title text-sm font-medium">Total Productos</h3>
+                              <div class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m7.5 4.27 9 5.15"></path><path d="m21 8-9 5.15-9-5.15"></path><path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5"></path><path d="m12 22.5V13"></path></svg></div>
+                          </div>
+                          <div class="card-content pt-2">
+                              <div class="text-2xl font-bold text-foreground">1,234</div>
+                              <p class="text-xs text-muted-foreground">
+                                  <span class="text-chart-4">+12%</span> desde el mes pasado
+                              </p>
+                          </div>
+                      </div>
+
+                      <div class="card hover:shadow-lg transition-shadow">
+                          <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+                              <h3 class="card-title text-sm font-medium">Órdenes Pendientes</h3>
+                              <div class="text-accent"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6"></path></svg></div>
+                          </div>
+                          <div class="card-content pt-2">
+                              <div class="text-2xl font-bold text-foreground">89</div>
+                              <p class="text-xs text-muted-foreground">
+                                  <span class="text-chart-4">+5%</span> desde el mes pasado
+                              </p>
+                          </div>
+                      </div>
+
+                      <div class="card hover:shadow-lg transition-shadow">
+                          <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+                              <h3 class="card-title text-sm font-medium">Ingresos del Mes</h3>
+                              <div class="text-chart-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+                          </div>
+                          <div class="card-content pt-2">
+                              <div class="text-2xl font-bold text-foreground">$45,231</div>
+                              <p class="text-xs text-muted-foreground">
+                                  <span class="text-chart-4">+18%</span> desde el mes pasado
+                              </p>
+                          </div>
+                      </div>
+
+                      <div class="card hover:shadow-lg transition-shadow">
+                          <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+                              <h3 class="card-title text-sm font-medium">Stock Bajo</h3>
+                              <div class="text-destructive"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m21.73 18.23-10-17a1.99 1.99 0 0 0-3.46 0l-10 17a1.99 1.99 0 0 0 1.73 2.77h20a1.99 1.99 0 0 0 1.73-2.77z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div>
+                          </div>
+                          <div class="card-content pt-2">
+                              <div class="text-2xl font-bold text-foreground">23</div>
+                              <p class="text-xs text-muted-foreground">
+                                  <span class="text-chart-4">-8%</span> desde el mes pasado
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="grid gap-6 md:grid-cols-2">
+                      <div class="card">
+                          <div class="card-header">
+                              <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-destructive"><path d="m21.73 18.23-10-17a1.99 1.99 0 0 0-3.46 0l-10 17a1.99 1.99 0 0 0 1.73 2.77h20a1.99 1.99 0 0 0 1.73-2.77z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                                  Productos con Stock Bajo
+                              </h2>
+                              <p class="card-description">Productos que necesitan reabastecimiento urgente</p>
+                          </div>
+                          <div id="low-stock-list" class="card-content space-y-4">
+                              <div class="flex items-center justify-between space-x-4">
+                                  <div class="flex-1 min-w-0">
+                                      <p class="text-sm font-medium truncate text-foreground">Laptop Dell XPS 13</p>
+                                      <div class="flex items-center gap-2 mt-1">
+                                          <div class="progress-container flex-1">
+                                              <div class="progress-bar" style="width: 50%;"></div>
+                                          </div>
+                                          <span class="text-xs text-muted-foreground">5/10</span>
+                                      </div>
+                                  </div>
+                                  <span class="badge badge-destructive text-xs">Crítico</span>
+                              </div>
+                              <div class="flex items-center justify-between space-x-4">
+                                  <div class="flex-1 min-w-0">
+                                      <p class="text-sm font-medium truncate text-foreground">Mouse Logitech MX</p>
+                                      <div class="flex items-center gap-2 mt-1">
+                                          <div class="progress-container flex-1">
+                                              <div class="progress-bar" style="width: 20%;"></div>
+                                          </div>
+                                          <span class="text-xs text-muted-foreground">3/15</span>
+                                      </div>
+                                  </div>
+                                  <span class="badge badge-destructive text-xs">Crítico</span>
+                              </div>
+                              <div class="flex items-center justify-between space-x-4">
+                                  <div class="flex-1 min-w-0">
+                                      <p class="text-sm font-medium truncate text-foreground">Teclado Mecánico</p>
+                                      <div class="flex items-center gap-2 mt-1">
+                                          <div class="progress-container flex-1">
+                                              <div class="progress-bar" style="width: 25%;"></div>
+                                          </div>
+                                          <span class="text-xs text-muted-foreground">2/8</span>
+                                      </div>
+                                  </div>
+                                  <span class="badge badge-destructive text-xs">Crítico</span>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="card">
+                          <div class="card-header">
+                              <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-primary"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6"></path></svg>
+                                  Órdenes Recientes
+                              </h2>
+                              <p class="card-description">Últimas órdenes procesadas en el sistema</p>
+                          </div>
+                          <div id="recent-orders-list" class="card-content space-y-4">
+                              <div class="flex items-center justify-between">
+                                  <div class="space-y-1">
+                                      <p class="text-sm font-medium text-foreground">ORD-001</p>
+                                      <p class="text-xs text-muted-foreground">Empresa ABC S.A.</p>
+                                  </div>
+                                  <div class="text-right space-y-1">
+                                      <p class="text-sm font-medium text-foreground">$2,340.00</p>
+                                      <span class="badge badge-destructive text-xs">Pendiente</span>
+                                  </div>
+                              </div>
+                              <div class="flex items-center justify-between">
+                                  <div class="space-y-1">
+                                      <p class="text-sm font-medium text-foreground">ORD-002</p>
+                                      <p class="text-xs text-muted-foreground">Tech Solutions Ltd.</p>
+                                  </div>
+                                  <div class="text-right space-y-1">
+                                      <p class="text-sm font-medium text-foreground">$1,890.50</p>
+                                      <span class="badge badge-outline text-xs">Procesando</span>
+                                  </div>
+                              </div>
+                              <div class="flex items-center justify-between">
+                                  <div class="space-y-1">
+                                      <p class="text-sm font-medium text-foreground">ORD-003</p>
+                                      <p class="text-xs text-muted-foreground">StartUp XYZ Inc.</p>
+                                  </div>
+                                  <div class="text-right space-y-1">
+                                      <p class="text-sm font-medium text-foreground">$3,450.75</p>
+                                      <span class="badge badge-secondary text-xs">Enviado</span>
+                                  </div>
+                              </div>
+                              <div class="flex items-center justify-between">
+                                  <div class="space-y-1">
+                                      <p class="text-sm font-medium text-foreground">ORD-004</p>
+                                      <p class="text-xs text-muted-foreground">Corp Industries</p>
+                                  </div>
+                                  <div class="text-right space-y-1">
+                                      <p class="text-sm font-medium text-foreground">$890.25</p>
+                                      <span class="badge badge-default text-xs">Entregado</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
           </div>
-
-          <div class="grid gap-6 md:grid-cols-2">
-            <div class="card">
-              <div class="card-header">
-                <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="h-5 w-5 text-destructive">
-                    <path
-                      d="m21.73 18.23-10-17a1.99 1.99 0 0 0-3.46 0l-10 17a1.99 1.99 0 0 0 1.73 2.77h20a1.99 1.99 0 0 0 1.73-2.77z" />
-                    <path d="M12 9v4" />
-                    <path d="M12 17h.01" />
-                  </svg>
-                  Productos con Stock Bajo
-                </h2>
-                <p class="card-description">Productos que necesitan reabastecimiento urgente</p>
-              </div>
-              <div id="low-stock-list" class="card-content space-y-4">
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-header">
-                <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="h-5 w-5 text-primary">
-                    <circle cx="8" cy="21" r="1" />
-                    <circle cx="19" cy="21" r="1" />
-                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" />
-                  </svg>
-                  Órdenes Recientes
-                </h2>
-                <p class="card-description">Últimas órdenes procesadas en el sistema</p>
-              </div>
-              <div id="recent-orders-list" class="card-content space-y-4">
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </main>
+      </main>
   </div>
 
   <script th:src="@{/scripts/main.js}"></script>
-  <script th:src="@{/scripts/dashboard.js}"></script>
 </body>
 
 </html>

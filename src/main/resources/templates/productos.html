@@ -103,11 +103,90 @@
             </div>
           </div>
 
+            <div id="products-grid-container" class="products-grid">
 
-          <div id="products-grid-container" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img th:src="@{/img/modern-laptop-workspace.png}" alt="Laptop Dell XPS 13">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-name">Laptop Dell XPS 13</h3>
+                            <span class="badge badge-low-stock">Bajo Stock</span>
+                        </div>
+                        <div class="product-category">Electrónicos</div>
+                        <div class="product-footer">
+                            <div class="product-price">$1,299</div>
+                            <div class="product-stock">Stock: 5</div>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-outline btn-edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            Editar
+                        </button>
+                        <button class="btn btn-outline btn-delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
 
-          </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img th:src="@{/img/computer-mouse}" alt="Mouse Logitech">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-name">Mouse Logitech MX Master 3</h3>
+                            <span class="badge badge-in-stock">En Stock</span>
+                        </div>
+                        <div class="product-category">Accesorios</div>
+                        <div class="product-footer">
+                            <div class="product-price">$99</div>
+                            <div class="product-stock">Stock: 25</div>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-outline btn-edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            Editar
+                        </button>
+                        <button class="btn btn-outline btn-delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
 
+                <div class="product-card">
+                    <div class="product-image">
+                        <img th:src="@{/img/mechanical-keyboard.png}" alt="Teclado Mecánico">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-name">Teclado Mecánico RGB</h3>
+                            <span class="badge badge-out-of-stock">Agotado</span>
+                        </div>
+                        <div class="product-category">Accesorios</div>
+                        <div class="product-footer">
+                            <div class="product-price">$149</div>
+                            <div class="product-stock">Stock: 0</div>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-outline btn-edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            Editar
+                        </button>
+                        <button class="btn btn-outline btn-delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
 
           <div id="no-products-found" class="card text-center py-12" style="display: none;">
             <div class="card-content">
@@ -197,11 +276,24 @@
             </div>
           </div>
 
-          <div>
-            <label for="product-description" class="block text-sm font-medium text-foreground mb-1">Descripción</label>
-            <textarea id="product-description" name="description" class="input w-full" rows="3"
-              placeholder="Descripción del producto..."></textarea>
-          </div>
+            <div>
+                <label class="block text-sm font-medium text-foreground mb-1">Imagen del Producto</label>
+                <div class="file-upload-area" id="file-upload-area">
+                    <input type="file" id="product-image" name="image" accept="image/*" class="sr-only" />
+                    <div class="flex flex-col items-center justify-center py-6 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-muted-foreground mb-2">
+                            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+                            <path d="M12 12v6"></path>
+                            <path d="m15 15-3 3-3-3"></path>
+                        </svg>
+                        <p class="text-sm text-muted-foreground">Arrastra y suelta tu imagen aquí o
+                            <span class="text-primary font-medium cursor-pointer">haz clic para seleccionar</span>
+                        </p>
+                        <p class="text-xs text-muted-foreground mt-1">PNG, JPG, GIF (Máx. 5MB)</p>
+                    </div>
+                </div>
+                <p id="file-name-display" class="text-xs text-muted-foreground mt-2"></p>
+            </div>
           <div class="flex gap-2 pt-4">
             <button type="button" id="cancel-btn" class="btn btn-outline flex-1">Cancelar</button>
             <button type="submit" class="btn btn-primary flex-1">Agregar</button>
