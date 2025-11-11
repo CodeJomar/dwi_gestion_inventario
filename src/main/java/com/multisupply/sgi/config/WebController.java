@@ -28,4 +28,6 @@ public class WebController {
         return "reportes";
     }
 
+    @GetMapping("/perfil")
+    public String web5() { return "perfil"; }
 }

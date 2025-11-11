@@ -1,56 +1,49 @@
 <header th:fragment="header"
-  class="border-b bg-card/50 backdrop-blur-sm supports-[backdrop-filter]:bg-card/50 sticky top-0 z-50">
-  <div class="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between flex-wrap gap-4">
+        class="border-b bg-card/50 backdrop-blur-sm supports-[backdrop-filter]:bg-card/50 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between flex-wrap gap-4">
 
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"
+                         style="color: var(--primary);">
+                        <path d="m7.5 4.27 9 5.15" />
+                        <path d="m21 8-9 5.15-9-5.15" />
+                        <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
+                        <path d="m12 22.5V13" />
+                    </svg>
+                    <h1 class="text-2xl font-bold text-foreground">MultiSupply S.A. - Gestión de Inventario</h1>
+                </div>
+            </div>
 
-      <div class="flex items-center space-x-4">
-        <div class="flex items-center space-x-2">
-
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"
-            style="color: var(--primary);">
-            <path d="m7.5 4.27 9 5.15" />
-            <path d="m21 8-9 5.15-9-5.15" />
-            <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
-            <path d="m12 22.5V13" />
-          </svg>
-          <h1 class="text-2xl font-bold text-foreground">MultiSupply S.A. - Gestión de Inventario</h1>
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <button class="btn btn-outline text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    Usuarios
+                </button>
+                <div class="dropdown">
+                    <button onclick="toggleUserMenu()" class="btn btn-outline text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="h-4 w-4 mr-2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </button>
+                    <div id="user-dropdown" class="dropdown-content">
+                        <a th:href="@{/auth/perfil}" class="dropdown-item">Ver Perfil</a>                        <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
+                        <a onclick="document.getElementById('logoutForm').submit();" style="cursor: pointer;"
+                           class="dropdown-item">Salir</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <button class="btn btn-outline text-sm">
-
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-2">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-          Usuarios
-        </button>
-        <div class="dropdown">
-          <button onclick="toggleUserMenu()" class="btn btn-outline text-sm">
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="h-4 w-4 mr-2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-
-          </button>
-          <div id="user-dropdown" class="dropdown-content">
-            <a href="#" class="dropdown-item">Ver Perfil</a>
-            <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
-            <a onclick="document.getElementById('logoutForm').submit();" style="cursor: pointer;"
-              class="dropdown-item">Salir</a>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </header>
