@@ -1,314 +1,195 @@
-let activeOrderFilters = {
-  status: '',
-  priority: '',
-  dateFrom: ''
-};
+document.addEventListener('DOMContentLoaded', () => {
 
-function toggleOrderFilters() {
-  const panel = document.getElementById('order-filters-panel');
-  if (panel.style.display === 'none') {
-    panel.style.display = 'block';
-  } else {
-    panel.style.display = 'none';
-  }
-}
+    let activeOrderFilters = {
+      status: '',
+      priority: '',
+      dateFrom: ''
+    };
 
-function applyOrderFilters() {
-  activeOrderFilters.status = document.getElementById('filter-order-status').value;
-  activeOrderFilters.priority = document.getElementById('filter-order-priority').value;
-  activeOrderFilters.dateFrom = document.getElementById('filter-order-date-from').value;
+    window.toggleOrderFilters = function() {
+      const panel = document.getElementById('order-filters-panel');
+      if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+      } else {
+        panel.style.display = 'none';
+      }
+    }
 
-  const searchTerm = document.getElementById('search-orders').value;
-  handleOrderSearch(searchTerm);
-}
+    window.applyOrderFilters = function() {
+      activeOrderFilters.status = document.getElementById('filter-order-status').value;
+      activeOrderFilters.priority = document.getElementById('filter-order-priority').value;
+      activeOrderFilters.dateFrom = document.getElementById('filter-order-date-from').value;
+      handleOrderSearch(document.getElementById('search-orders').value);
+    }
 
-function clearOrderFilters() {
-  document.getElementById('filter-order-status').value = '';
-  document.getElementById('filter-order-priority').value = '';
-  document.getElementById('filter-order-date-from').value = '';
+    window.clearOrderFilters = function() {
+      document.getElementById('filter-order-status').value = '';
+      document.getElementById('filter-order-priority').value = '';
+      document.getElementById('filter-order-date-from').value = '';
+      activeOrderFilters = { status: '', priority: '', dateFrom: '' };
+      handleOrderSearch(document.getElementById('search-orders').value);
+    }
 
-  activeOrderFilters = {
-    status: '',
-    priority: '',
-    dateFrom: ''
-  };
+    function handleOrderSearch(searchTerm) {
+      const term = searchTerm.toLowerCase();
+      const orderCards = document.querySelectorAll('#orders-list-container .card');
+      const noFoundMessage = document.getElementById('no-orders-found');
+      let visibleOrders = 0;
 
-  const searchTerm = document.getElementById('search-orders').value;
-  handleOrderSearch(searchTerm);
-}
+      orderCards.forEach(card => {
+        const orderIdElement = card.querySelector('h3');
+        const customerInfoElement = card.querySelector('.text-muted-foreground');
 
-function renderOrdersList(orders) {
-  const container = document.getElementById('orders-list-container');
-  const noFound = document.getElementById('no-orders-found');
+        if (orderIdElement && customerInfoElement) {
+            const orderId = orderIdElement.textContent.toLowerCase();
+            const customerInfo = customerInfoElement.textContent.toLowerCase();
+            const matchesSearch = orderId.includes(term) || customerInfo.includes(term);
 
-  if (!container || !noFound) return;
+            if (matchesSearch) {
+              card.style.display = 'block';
+              visibleOrders++;
+            } else {
+              card.style.display = 'none';
+            }
+        }
+      });
 
-  if (orders.length === 0) {
-    container.innerHTML = '';
-    noFound.style.display = 'block';
-    return;
-  }
+      if (noFoundMessage) {
+        noFoundMessage.style.display = visibleOrders === 0 ? 'block' : 'none';
+      }
+    }
 
-  noFound.style.display = 'none';
+    window.abrirModalOrden = function() {
+      const overlay = document.getElementById('modal-overlay');
+      if (overlay) {
+        overlay.classList.add('active');
+      }
+    }
 
-  container.innerHTML = orders.map(order => {
-    const statusClass = getStatusBadgeClass(order.status);
-    const priorityColor = getPriorityColor(order.priority);
-    const formattedDate = formatDate(order.date);
+    window.cerrarModalOrden = function() {
+      const overlay = document.getElementById('modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        const form = document.getElementById('new-order-form');
+        if (form) {
+            form.reset();
+        }
+        if (window.location.search.includes("abrirModal")) {
+            window.history.pushState({}, '', '/auth/ordenes');
+        }
+      }
+    }
 
-    return `
-  <div class="card hover:shadow-md transition-shadow">
-    <div class="card-content p-6">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    function abrirModalDetalle() {
+        const overlay = document.getElementById('detalle-modal-overlay');
+        if (overlay) {
+            overlay.style.display = 'flex';
+            overlay.offsetHeight;
+            overlay.classList.add('active');
+        }
+    }
 
-        <div class="flex items-start space-x-4 flex-1 min-w-0">
-          <div class="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg flex-shrink-0">
+    function cerrarModalDetalle() {
+        const overlay = document.getElementById('detalle-modal-overlay');
+        if (overlay) {
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.getElementById('detalle-orden-titulo').textContent = 'Detalle de Orden';
+                document.getElementById('detalle-orden-id').textContent = 'ID: ...';
+                document.getElementById('detalle-producto-nombre').textContent = 'Cargando...';
+                document.getElementById('detalle-cantidad').textContent = 'Cargando...';
+                document.getElementById('detalle-tipo').textContent = 'Cargando...';
+                document.getElementById('detalle-motivo').textContent = 'Cargando...';
+                document.getElementById('detalle-creado-por').textContent = 'Cargando...';
+                document.getElementById('detalle-fecha').textContent = 'Cargando...';
+                document.getElementById('detalle-monto').textContent = 'Cargando...';
+            }, 300);
+        }
+    }
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-primary"><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6" /></svg>
-          </div>
-          <div class="min-w-0">
-            <div class="flex flex-wrap items-center gap-2 md:gap-3 mb-1">
-              <h3 class="font-semibold text-lg truncate text-foreground">${order.id}</h3>
-              <span class="badge ${statusClass}">${order.status}</span>
-              <span class="text-sm font-medium ${priorityColor}">
-                Prioridad ${order.priority}
-              </span>
-            </div>
-            <p class="text-muted-foreground truncate">${order.customer}</p>
-            <div class="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-              <div class="flex items-center gap-1">
+    function poblarModalDetalle(orden, index) {
+        document.getElementById('detalle-orden-titulo').textContent = `Detalle de Orden #${index}`;
+        document.getElementById('detalle-orden-id').textContent = `ID: ${orden.id}`;
+        document.getElementById('detalle-producto-nombre').textContent = orden.productoNombre;
+        document.getElementById('detalle-cantidad').textContent = orden.cantidad + ' unidades';
+        document.getElementById('detalle-tipo').textContent = orden.tipo;
+        document.getElementById('detalle-motivo').textContent = orden.motivo;
+        document.getElementById('detalle-creado-por').textContent = orden.creadoPor;
 
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" /></svg>
-                ${formattedDate}
-              </div>
-              <span>${order.items} productos</span>
-            </div>
-          </div>
-        </div>
+        const fecha = new Date(orden.fechaCreacion);
+        document.getElementById('detalle-fecha').textContent = fecha.toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+        document.getElementById('detalle-monto').textContent = `S/ ${orden.monto.toFixed(2)}`;
+    }
 
-        <div class="text-right flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
-          <p class="text-2xl font-bold text-primary mb-2">${order.total}</p>
-          <button class="btn btn-outline text-sm w-full md:w-auto">
+    const form = document.getElementById('new-order-form');
+    if (form) {
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
-            Ver Detalles
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  `;
-  }).join('');
-}
+    }
 
-function handleOrderSearch(searchTerm) {
-  const term = searchTerm.toLowerCase();
-  let filteredOrders = allOrders.filter(
-    (order) =>
-      order.id.toLowerCase().includes(term) ||
-      order.customer.toLowerCase().includes(term)
-  );
+    const overlay = document.getElementById('modal-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', function (event) {
+          if (event.target === this) {
+            cerrarModalOrden();
+          }
+        });
+    }
 
-  if (activeOrderFilters.status) {
-    filteredOrders = filteredOrders.filter(order => order.status === activeOrderFilters.status);
-  }
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', cerrarModalOrden);
+    }
 
-  if (activeOrderFilters.priority) {
-    filteredOrders = filteredOrders.filter(order => order.priority === activeOrderFilters.priority);
-  }
+    const cancelBtn = document.getElementById('cancel-btn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', cerrarModalOrden);
+    }
 
-  if (activeOrderFilters.dateFrom) {
-    filteredOrders = filteredOrders.filter(order => {
-      const orderDate = new Date(order.date);
-      const filterDate = new Date(activeOrderFilters.dateFrom);
-      return orderDate >= filterDate;
+    document.querySelectorAll('.btn-ver-detalle').forEach(button => {
+        button.addEventListener('click', async () => {
+            const id = button.dataset.id;
+            const index = button.dataset.index;
+
+            abrirModalDetalle();
+
+            try {
+                const response = await fetch(`/api/ordenes/${id}`);
+                if (!response.ok) {
+                    throw new Error('No se pudo encontrar la orden.');
+                }
+                const orden = await response.json();
+
+                poblarModalDetalle(orden, index);
+
+            } catch (err) {
+                console.error(err);
+                cerrarModalDetalle();
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'No se pudieron cargar los detalles de la orden.',
+                });
+            }
+        });
     });
-  }
 
-  renderOrdersList(filteredOrders);
-}
+    const detalleCloseBtn = document.getElementById('detalle-close-modal-btn');
+    if (detalleCloseBtn) {
+        detalleCloseBtn.addEventListener('click', cerrarModalDetalle);
+    }
 
-function abrirModalOrden() {
-  const overlay = document.getElementById('modal-overlay');
-  if (overlay) {
-    overlay.classList.add('active');
-  }
-}
+    const detalleOverlay = document.getElementById('detalle-modal-overlay');
+    if (detalleOverlay) {
+        detalleOverlay.addEventListener('click', function(event) {
+            if (event.target === this) {
+                cerrarModalDetalle();
+            }
+        });
+    }
 
-function cerrarModalOrden() {
-  const overlay = document.getElementById('modal-overlay');
-  if (overlay) {
-    overlay.classList.remove('active');
-  }
-}
-
-document.getElementById('new-order-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  const customer = document.getElementById('order-customer').value;
-  const status = document.getElementById('order-status').value;
-  const priority = document.getElementById('order-priority').value;
-  const date = document.getElementById('order-date').value;
-  const total = parseFloat(document.getElementById('order-total').value);
-  const items = parseInt(document.getElementById('order-items').value);
-  const notes = document.getElementById('order-notes').value;
-
-  if (customer && status && priority && date && total && items) {
-    const newOrder = {
-      id: `ORD-${String(allOrders.length + 1).padStart(3, '0')}`,
-      customer: customer,
-      date: date,
-      total: `$${total.toFixed(2)}`,
-      items: items,
-      status: status,
-      priority: priority,
-      notes: notes
-    };
-
-    allOrders.unshift(newOrder);
-
-    const currentSearchTerm = document.getElementById('search-orders').value;
+    const searchInput = document.getElementById('search-orders');
+    const currentSearchTerm = searchInput ? searchInput.value : '';
     handleOrderSearch(currentSearchTerm);
 
-    cerrarModalOrden();
-    this.reset();
-  }
-});
-
-document.getElementById('modal-overlay').addEventListener('click', function (event) {
-  if (event.target === this) {
-    cerrarModalOrden();
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const currentSearchTerm = document.getElementById('search-orders').value;
-  handleOrderSearch(currentSearchTerm);
-});
-
-function renderOrdersList(orders) {
-  const container = document.getElementById('orders-list-container');
-  const noFound = document.getElementById('no-orders-found');
-
-  if (!container || !noFound) return;
-
-  if (orders.length === 0) {
-    container.innerHTML = '';
-    noFound.style.display = 'block';
-    return;
-  }
-
-  noFound.style.display = 'none';
-
-  container.innerHTML = orders.map(order => {
-    const statusClass = getStatusBadgeClass(order.status);
-    const priorityColor = getPriorityColor(order.priority);
-    const formattedDate = formatDate(order.date);
-
-    return `
-            <div class="card hover:shadow-md transition-shadow">
-                <div class="card-content p-6">
-                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-
-                        <div class="flex items-start space-x-4 flex-1 min-w-0">
-                            <div class="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg flex-shrink-0">
-                                <!-- Icono ShoppingCart -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-primary"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6"/></svg>
-                            </div>
-                            <div class="min-w-0">
-                                <div class="flex flex-wrap items-center gap-2 md:gap-3 mb-1">
-                                    <h3 class="font-semibold text-lg truncate text-foreground">${order.id}</h3>
-                                    <span class="badge ${statusClass}">${order.status}</span>
-                                    <span class="text-sm font-medium ${priorityColor}">
-                                        Prioridad ${order.priority}
-                                    </span>
-                                </div>
-                                <p class="text-muted-foreground truncate">${order.customer}</p>
-                                <div class="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                                    <div class="flex items-center gap-1">
-                                        <!-- Icono Calendar -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
-                                        ${formattedDate}
-                                    </div>
-                                    <span>${order.items} productos</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-right flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
-                            <p class="text-2xl font-bold text-primary mb-2">${order.total}</p>
-                            <button class="btn btn-outline text-sm w-full md:w-auto">
-                                <!-- Icono Eye -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                Ver Detalles
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-  }).join('');
-}
-
-function handleOrderSearch(searchTerm) {
-  const term = searchTerm.toLowerCase();
-  const filteredOrders = allOrders.filter(
-    (order) =>
-      order.id.toLowerCase().includes(term) ||
-      order.customer.toLowerCase().includes(term)
-  );
-  renderOrdersList(filteredOrders);
-}
-
-function abrirModalOrden() {
-  const modal = document.getElementById('new-order-modal');
-  if (modal) {
-    modal.style.display = 'flex';
-  }
-}
-
-function cerrarModalOrden() {
-  const modal = document.getElementById('new-order-modal');
-  if (modal) {
-    modal.style.display = 'none';
-  }
-}
-
-document.getElementById('new-order-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  const type = document.getElementById('order-type').value;
-  const status = document.getElementById('order-status').value;
-  const total = parseFloat(document.getElementById('order-total').value);
-  const date = document.getElementById('order-date').value;
-
-  if (type && status && total && date) {
-    const newOrder = {
-      id: `ORD-${String(allOrders.length + 1).padStart(3, '0')}`,
-      customer: 'Nuevo Cliente',
-      date: date,
-      total: `$${total.toFixed(2)}`,
-      items: 1,
-      status: status,
-      priority: 'Media',
-    };
-
-    allOrders.unshift(newOrder);
-
-    const currentSearchTerm = document.getElementById('search-orders').value;
-    handleOrderSearch(currentSearchTerm);
-
-    cerrarModalOrden();
-    this.reset();
-  }
-});
-
-document.getElementById('new-order-modal').addEventListener('click', function (event) {
-  if (event.target === this) {
-    cerrarModalOrden();
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const currentSearchTerm = document.getElementById('search-orders').value;
-  handleOrderSearch(currentSearchTerm);
 });
