@@ -1,4 +1,3 @@
-// === Variables globales ===
 const $ = window.$
 const Swal = window.Swal
 
@@ -8,8 +7,10 @@ $(document).ready(() => {
     language: {
       url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
     },
+    responsive: true,
     paging: true,
     pageLength: 10,
+    lengthMenu: [5, 10, 20, 50],
     ordering: true,
     searching: true,
     columnDefs: [{ orderable: false, targets: 4 }]
@@ -19,7 +20,6 @@ $(document).ready(() => {
   setupTableListeners()
 })
 
-// === Modales ===
 function setupModalListeners() {
   const modalCrear = document.getElementById("modalCrearUsuario")
   const btnCrear = document.getElementById("btnCrearUsuario")
@@ -64,7 +64,6 @@ function closeModal(modal) {
   document.body.style.overflow = ""
 }
 
-// === Acciones de tabla ===
 function setupTableListeners() {
   document.querySelectorAll(".btn-cambiar-estado").forEach((btn) => {
     btn.addEventListener("click", function (e) {
@@ -75,10 +74,13 @@ function setupTableListeners() {
   })
 }
 
-// === Cambiar estado ===
 function handleChangeStatus(row) {
   const userName = row.querySelector("td:first-child").textContent.trim()
-  const badge = row.querySelector(".badge")
+
+  // ✅ Seleccionamos el badge de la columna de estado (4ª celda)
+  const badgeCell = row.querySelector("td:nth-child(4)")
+  const badge = badgeCell.querySelector(".badge")
+
   const currentStatus = badge.textContent.trim()
   const newStatus = currentStatus === "Activo" ? "Inactivo" : "Activo"
 
@@ -92,13 +94,17 @@ function handleChangeStatus(row) {
     confirmButtonColor: "#3085d6",
   }).then((result) => {
     if (result.isConfirmed) {
+      // Cambiar texto y estilos del badge
       badge.textContent = newStatus
-      badge.style.backgroundColor =
-        newStatus === "Activo" ? "var(--primary)" : "oklch(0.6 0.15 60)"
-      badge.style.color = "var(--primary-foreground)"
+      badge.className = newStatus === "Activo"
+        ? "badge badge-success"
+        : "badge badge-destructive"
 
-      const btn = row.querySelector(".btn-cambiar-estado i")
-      btn.className = newStatus === "Activo" ? "fas fa-toggle-on" : "fas fa-toggle-off"
+      // Cambiar icono del botón
+      const btnIcon = row.querySelector(".btn-cambiar-estado i")
+      btnIcon.className = newStatus === "Activo"
+        ? "fas fa-toggle-on"
+        : "fas fa-toggle-off"
 
       Swal.fire({
         title: "Estado actualizado",
@@ -106,6 +112,12 @@ function handleChangeStatus(row) {
         icon: "success",
         confirmButtonColor: "#3085d6",
       })
+
+      // ✅ Ejecutar la llamada al backend para guardar el cambio real
+      const userId = row.querySelector(".btn-cambiar-estado").getAttribute("data-id")
+      fetch(`/auth/usuarios/estado/${userId}`)
+        .then(() => console.log("Estado actualizado en servidor"))
+        .catch((err) => console.error("Error actualizando estado:", err))
     }
   })
 }

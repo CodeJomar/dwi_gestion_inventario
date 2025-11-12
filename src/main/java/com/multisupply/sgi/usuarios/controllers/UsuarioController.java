@@ -35,13 +35,14 @@ public class UsuarioController {
     public String crearUsuario(@Valid @ModelAttribute("nuevoUsuario") UsuarioDTO usuarioDTO,
                                BindingResult result,
                                @RequestParam("rolId") Long rolId,
-                               Model model,
                                RedirectAttributes redirect) {
         
         if (result.hasErrors()) {
-            model.addAttribute("roles", rolRepository.findAll());
-            model.addAttribute("abrirModalNuevoUsuario", true);
-            return "usuarios";
+            redirect.addFlashAttribute("org.springframework.validation.BindingResult.nuevoUsuario", result);
+            redirect.addFlashAttribute("nuevoUsuario", usuarioDTO);
+            redirect.addFlashAttribute("error", true);
+            redirect.addFlashAttribute("mensaje", "Por favor, revisa los errores del formulario.");
+            return "redirect:/auth/usuarios";
         }
         
         try {
@@ -51,14 +52,12 @@ public class UsuarioController {
             usuarioService.crearUsuario(usuarioDTO, rol.getNombre());
             redirect.addFlashAttribute("exito", true);
             redirect.addFlashAttribute("mensaje", "Usuario creado correctamente.");
-            return "redirect:/auth/usuarios";
-            
         } catch (IllegalArgumentException e) {
             redirect.addFlashAttribute("error", true);
             redirect.addFlashAttribute("mensaje", e.getMessage());
-            redirect.addFlashAttribute("abrirModalNuevoUsuario", true);
-            return "redirect:/auth/usuarios";
         }
+        
+        return "redirect:/auth/usuarios";
     }
     
     @GetMapping("/detalle/{id}")
