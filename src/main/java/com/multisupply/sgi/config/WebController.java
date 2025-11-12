@@ -18,4 +18,11 @@ public class WebController {
         return "reportes";
     }
 
+    @GetMapping("/perfil")
+    public String web5() { return "perfil"; }
+    
+    @GetMapping("/usuarios")
+    public String web6() { return "usuarios"; }
+
+
 }

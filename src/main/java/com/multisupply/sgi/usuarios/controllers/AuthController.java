@@ -2,6 +2,7 @@ package com.multisupply.sgi.usuarios.controllers;
 
 import com.multisupply.sgi.usuarios.entities.dtos.CambioPasswordDTO;
 import com.multisupply.sgi.usuarios.entities.dtos.UsuarioDTO;
+import com.multisupply.sgi.usuarios.services.AuthService;
 import com.multisupply.sgi.usuarios.services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class AuthController {
     
-    private final UsuarioService usuarioService;
+    private final AuthService usuarioService;
     
     @GetMapping("/")
     public String mostrarWebLogin(Model model) {

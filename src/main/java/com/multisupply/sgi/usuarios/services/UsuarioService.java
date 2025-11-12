@@ -33,25 +33,6 @@ public class UsuarioService {
         return mapToDTO(guardado);
     }
     
-    // Registrar usuario
-    public UsuarioDTO registrarUsuario(UsuarioDTO dto) {
-        Rol rol = rolRepository.findByNombre(RolList.ROLE_ADMINISTRADOR)
-            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado en la base de datos."));
-        
-        Usuario usuario = mapToEntity(dto, rol);
-        Usuario guardado = usuarioRepository.save(usuario);
-        return mapToDTO(guardado);
-    }
-    
-    @Transactional
-    public void actualizarPassword(String email, String nuevaPassword) {
-        Usuario usuario = usuarioRepository.findByEmail(email)
-            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado."));
-        
-        usuario.setPassword(passwordEncoder.encode(nuevaPassword));
-        usuarioRepository.save(usuario);
-    }
-    
     // Leer usuarios activos (excepto administradores)
     public List<UsuarioDTO> listarUsuariosActivos() {
         return usuarioRepository.findAll().stream()
@@ -92,7 +73,6 @@ public class UsuarioService {
             .map(this::mapToDTO);
     }
     
-    // Convertir Entity → DTO
     private UsuarioDTO mapToDTO(Usuario usuario) {
         return new UsuarioDTO(
             usuario.getId(),
@@ -102,7 +82,6 @@ public class UsuarioService {
         );
     }
     
-    // Convertir DTO → Entity
     private Usuario mapToEntity(UsuarioDTO dto, Rol rol) {
         return new Usuario(
             dto.getId(),

@@ -1,38 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultiSupply S.A. - Gestión de Usuarios</title>
+  <th:block th:replace="~{fragments/links :: cdnLinks-up}"></th:block>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" th:href="@{/styles/globals.css}">
+  <link rel="stylesheet" th:href="@{/styles/usuarios.css}">
 </head>
-<body>
 
-<header>
+<body class="bg-background text-foreground">
+  <div id="usuarios-system" class="min-h-screen">
 
-</header>
+    <header th:replace="~{fragments/header :: header}"></header>
 
-<nav>
+    <main class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div id="usuarios-container">
 
-</nav>
+        <nav th:replace="~{fragments/nav :: nav-basic}"></nav>
 
-<main>
+        <div class="usuarios-header">
+          <div>
+            <h1 class="page-title">Gestión de Usuarios</h1>
+            <p class="page-description">Administra los usuarios del sistema</p>
+          </div>
+          <!-- Added gap class for spacing between icon and text -->
+          <button class="btn btn-primary gap-2" id="btnCrearUsuario">
+            <i class="fas fa-plus"></i> <span>Crear Usuario</span>
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-content">
 
-  <section th:replace="content/usuario/formulario :: formulario">
+            <div th:replace="~{content/usuarios/tabla :: tabla-usuarios}"></div>
 
-  </section>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Modal for creating users -->
+    <div id="modalCrearUsuario" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Crear Nuevo Usuario</h2>
+          <button type="button" class="modal-close">&times;</button>
+        </div>
 
+        <div th:replace="~{content/usuarios/formulario :: formulario-usuarios}"></div>
 
-  <section th:replace="content/usuario/tabla :: tabla">
+      </div>
+    </div>
 
-  </section>
+    <div th:replace="~{content/usuarios/modal :: modal-detalles}"></div>
 
+  </div>
 
+  <th:block th:replace="~{fragments/links :: cdnLinks-down}"></th:block>
 
-
-
-</main>
-
-
-<footer></footer>
-
+  <script th:src="@{/scripts/main.js}"></script>
+  <script th:src="@{/scripts/usuarios.js}"></script>
 </body>
+
 </html>
