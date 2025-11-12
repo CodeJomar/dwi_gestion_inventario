@@ -1,0 +1,62 @@
+<table id="tablaUsuarios" class="tabla-usuarios" th:fragment="tabla-usuarios">
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Correo</th>
+      <th>Rol</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Juan Díaz</td>
+      <td>juan.diaz@multisupply.com</td>
+      <td><span class="badge badge-default">Administrador</span></td>
+      <td><span class="badge badge-success">Activo</span></td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn-icon btn-detalles" title="Ver detalles">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="btn-icon btn-cambiar-estado" title="Cambiar estado">
+            <i class="fas fa-toggle-on"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>María García</td>
+      <td>maria.garcia@multisupply.com</td>
+      <td><span class="badge badge-warning">Empleado</span></td>
+      <td><span class="badge badge-success">Activo</span></td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn-icon btn-detalles" title="Ver detalles">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="btn-icon btn-cambiar-estado" title="Cambiar estado">
+            <i class="fas fa-toggle-on"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Carlos Rodríguez</td>
+      <td>carlos.rodriguez@multisupply.com</td>
+      <td><span class="badge badge-warning">Empleado</span></td>
+      <td><span class="badge badge-destructive">Inactivo</span>
+      </td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn-icon btn-detalles" title="Ver detalles">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="btn-icon btn-cambiar-estado" title="Cambiar estado">
+            <i class="fas fa-toggle-off"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

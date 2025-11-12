@@ -255,6 +255,16 @@ body {
   color: var(--primary-foreground);
 }
 
+.badge-success {
+  background-color: oklch(0.7 0.15 140);
+  color: var(--primary-foreground);
+}
+
+.badge-warning {
+  background-color: oklch(0.75 0.15 85);
+  color: var(--primary-foreground);
+}
+
 .badge-outline {
   background-color: transparent;
   border: 1px solid var(--border);
