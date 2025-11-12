@@ -4,6 +4,7 @@ import com.multisupply.sgi.usuarios.services.CustomUDS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,7 +35,10 @@ public class SecurityConfig {
                 
                 .requestMatchers( "/auth/dashboard", "/auth/productos", "/auth/ordenes",  "/auth/perfil")
                 .hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_EMPLEADO")
-                
+
+                .requestMatchers(HttpMethod.GET, "/api/ordenes/**") // -----------------
+                .hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_EMPLEADO") //--------------
+
                 .requestMatchers("/auth/usuarios", "/auth/reportes")
                 .hasAnyAuthority("ROLE_ADMINISTRADOR")
                 

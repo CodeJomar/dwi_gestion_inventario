@@ -2,309 +2,228 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MultiSupply S.A. - Productos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiSupply S.A. - Productos</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" th:href="@{/styles/globals.css}">
-  <link rel="stylesheet" th:href="@{/styles/productos.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" th:href="@{/styles/globals.css}">
+    <link rel="stylesheet" th:href="@{/styles/productos.css}">
 </head>
 
 <body class="bg-background text-foreground">
 
-  <div id="inventory-system" class="min-h-screen">
+<div id="inventory-system" class="min-h-screen">
 
     <header th:replace="~{fragments/header :: header}"></header>
 
     <main class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-      <div id="tabs-container" class="space-y-6">
+        <div id="tabs-container" class="space-y-6">
 
-        <nav th:replace="~{fragments/nav :: nav-productos}"></nav>
+            <nav th:replace="~{fragments/nav :: nav-productos}"></nav>
 
-        <div id="tab-products-content" data-tab-content="products" class="tabs-content tabs-content-active space-y-6">
-          <div id="products-header-actions" class="flex flex-col sm:flex-row gap-4 justify-between">
-            <div class="flex flex-1 gap-4 flex-wrap">
-              <div class="relative flex-1 max-w-full sm:max-w-sm">
+            <div id="tab-products-content" data-tab-content="products" class="tabs-content tabs-content-active space-y-6">
+                <div id="products-header-actions" class="flex flex-col sm:flex-row gap-4 justify-between">
+                    <div class="flex flex-1 gap-4 flex-wrap">
+                        <div class="relative flex-1 max-w-full sm:max-w-sm">
 
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" x2="16.65" y1="21" y2="16.65" />
-                </svg>
-                <input id="search-products" type="text" placeholder="Buscar productos..." class="input pl-10"
-                  oninput="handleProductSearch(this.value)" />
-              </div>
-
-              <button class="btn btn-outline text-sm w-full sm:w-auto" onclick="toggleProductFilters()">
-
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="h-4 w-4 mr-2">
-                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                </svg>
-                Filtros
-              </button>
-            </div>
-            <button id="add-product-btn" class="btn btn-primary w-full sm:w-auto" onclick="toggleModal(true)">
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="h-4 w-4 mr-2">
-                <path d="M12 5v14" />
-                <path d="M5 12h14" />
-              </svg>
-              Agregar Producto
-            </button>
-          </div>
-
-
-          <div id="product-filters-panel" class="card" style="display: none;">
-            <div class="card-content p-4">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="font-semibold text-foreground">Filtros</h3>
-                <button onclick="clearProductFilters()" class="text-sm text-primary hover:underline">
-                  Limpiar filtros
-                </button>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-foreground mb-2">Categoría</label>
-                  <select id="filter-product-category" class="input w-full" onchange="applyProductFilters()">
-                    <option value="">Todas</option>
-                    <option value="Electrónicos">Electrónicos</option>
-                    <option value="Accesorios">Accesorios</option>
-                    <option value="Audio">Audio</option>
-                    <option value="Computadoras">Computadoras</option>
-                    <option value="Periféricos">Periféricos</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-foreground mb-2">Estado</label>
-                  <select id="filter-product-status" class="input w-full" onchange="applyProductFilters()">
-                    <option value="">Todos</option>
-                    <option value="En Stock">En Stock</option>
-                    <option value="Bajo Stock">Bajo Stock</option>
-                    <option value="Agotado">Agotado</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-foreground mb-2">Precio mínimo</label>
-                  <input type="number" id="filter-product-price-min" class="input w-full" placeholder="0" step="0.01"
-                    onchange="applyProductFilters()">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-foreground mb-2">Precio máximo</label>
-                  <input type="number" id="filter-product-price-max" class="input w-full" placeholder="9999" step="0.01"
-                    onchange="applyProductFilters()">
-                </div>
-              </div>
-            </div>
-          </div>
-
-            <div id="products-grid-container" class="products-grid">
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img th:src="@{/img/modern-laptop-workspace.png}" alt="Laptop Dell XPS 13">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-header">
-                            <h3 class="product-name">Laptop Dell XPS 13</h3>
-                            <span class="badge badge-low-stock">Bajo Stock</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" x2="16.65" y1="21" y2="16.65" />
+                            </svg>
+                            <input id="search-products" type="text" placeholder="Buscar productos..." class="input pl-10"
+                                   oninput="handleProductSearch(this.value)" />
                         </div>
-                        <div class="product-category">Electrónicos</div>
-                        <div class="product-footer">
-                            <div class="product-price">$1,299</div>
-                            <div class="product-stock">Stock: 5</div>
-                        </div>
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn btn-outline btn-edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                            Editar
-                        </button>
-                        <button class="btn btn-outline btn-delete">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                            Eliminar
+
+                        <button class="btn btn-outline text-sm w-full sm:w-auto" onclick="toggleProductFilters()">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="h-4 w-4 mr-2">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                            </svg>
+                            Filtros
                         </button>
                     </div>
+                    <button id="add-product-btn" class="btn btn-primary w-full sm:w-auto" onclick="toggleModal(true)">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="h-4 w-4 mr-2">
+                            <path d="M12 5v14" />
+                            <path d="M5 12h14" />
+                        </svg>
+                        Agregar Producto
+                    </button>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img th:src="@{/img/computer-mouse}" alt="Mouse Logitech">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-header">
-                            <h3 class="product-name">Mouse Logitech MX Master 3</h3>
-                            <span class="badge badge-in-stock">En Stock</span>
+
+                <div id="product-filters-panel" class="card" style="display: none;">
+                    <div class="card-content p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-foreground">Filtros</h3>
+                            <button onclick="clearProductFilters()" class="text-sm text-primary hover:underline">
+                                Limpiar filtros
+                            </button>
                         </div>
-                        <div class="product-category">Accesorios</div>
-                        <div class="product-footer">
-                            <div class="product-price">$99</div>
-                            <div class="product-stock">Stock: 25</div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-foreground mb-2">Categoría</label>
+                                <select id="filter-product-category" class="input w-full" onchange="applyProductFilters()">
+                                    <option value="">Todas</option>
+                                    <option value="CELULARES">Celulares</option>
+                                    <option value="COMPUTO">Computo</option>
+                                    <option value="AUDIO">Audio</option>
+                                    <option value="TV">TV</option>
+                                    <option value="GAMER">Gamer</option>
+                                    <option value="CAMARA">Cámara</option>
+                                    <option value="ACCESORIOS">Accesorios</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-foreground mb-2">Estado</label>
+                                <select id="filter-product-status" class="input w-full" onchange="applyProductFilters()">
+                                    <option value="">Todos</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-foreground mb-2">Precio mínimo</label>
+                                <input type="number" id="filter-product-price-min" class="input w-full" placeholder="0" step="0.01"
+                                       onchange="applyProductFilters()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-foreground mb-2">Precio máximo</label>
+                                <input type="number" id="filter-product-price-max" class="input w-full" placeholder="9999" step="0.01"
+                                       onchange="applyProductFilters()">
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn btn-outline btn-edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                            Editar
-                        </button>
-                        <button class="btn btn-outline btn-delete">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                            Eliminar
-                        </button>
                     </div>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img th:src="@{/img/mechanical-keyboard.png}" alt="Teclado Mecánico">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-header">
-                            <h3 class="product-name">Teclado Mecánico RGB</h3>
-                            <span class="badge badge-out-of-stock">Agotado</span>
+                <div id="products-grid-container" class="products-grid">
+
+                    <div th:each="producto : ${productos}" class="product-card">
+                        <div class="product-image">
+                            <img th:src="${producto.imagen != null ? producto.imagen : '/img/default-product.png'}"
+                                 th:alt="${producto.nombre}"
+                                 class="w-full h-full object-cover">
                         </div>
-                        <div class="product-category">Accesorios</div>
-                        <div class="product-footer">
-                            <div class="product-price">$149</div>
-                            <div class="product-stock">Stock: 0</div>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <h3 class="product-name" th:text="${producto.nombre}">Nombre del Producto</h3>
+                                <span class="badge"
+                                      th:text="${producto.estado.displayName}"
+                                      th:classappend="${producto.estado.name() == 'ACTIVO' ? 'badge-in-stock' : 'badge-out-of-stock'}">
+                                      Estado
+                                </span>
+                            </div>
+
+                            <div class="product-category" th:text="${producto.categoria.displayName}">Categoría</div>
+                            <div class="product-footer">
+                                <div class="product-price" th:text="'S/ ' + ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</div>
+                                <div class="product-stock" th:text="'Stock: ' + ${producto.stock}">Stock: 0</div>
+                            </div>
+                        </div>
+
+                        <div class="product-actions">
+
+                            <a th:href="@{/auth/productos(editarId=${producto.id})}" class="btn btn-outline btn-edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                Editar
+                            </a>
+
+                            <th:block th:if="${producto.estado.name() == 'ACTIVO'}">
+                                <button type="button" class="btn btn-outline btn-delete"
+                                        th:data-id="${producto.id}"
+                                        th:data-nombre="${producto.nombre}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                    Eliminar
+                                </button>
+
+                                <form th:id="'form-delete-' + ${producto.id}"
+                                      th:action="@{/auth/productos/eliminar}"
+                                      method="post" style="display: none;">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                    <input type="hidden" name="id" th:value="${producto.id}" />
+                                </form>
+                            </th:block>
                         </div>
                     </div>
-                    <div class="product-actions">
-                        <button class="btn btn-outline btn-edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                            Editar
-                        </button>
-                        <button class="btn btn-outline btn-delete">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                            Eliminar
+                </div>
+
+                <div id="no-products-found" class="card text-center py-12" style="display: none;">
+                    <div class="card-content">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="h-12 w-12 text-muted-foreground mx-auto mb-4">
+                            <path d="m7.5 4.27 9 5.15" />
+                            <path d="m21 8-9 5.15-9-5.15" />
+                            <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
+                            <path d="m12 22.5V13" />
+                        </svg>
+                        <h3 class="text-lg font-semibold mb-2 text-foreground">No se encontraron productos</h3>
+                        <p class="text-muted-foreground mb-4">No hay productos que coincidan con tu búsqueda.</p>
+                        <button class="btn btn-primary" onclick="toggleModal(true)">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="h-4 w-4 mr-2">
+                                <path d="M12 5v14" />
+                                <path d="M5 12h14" />
+                            </svg>
+                            Agregar Primer Producto
                         </button>
                     </div>
                 </div>
-
             </div>
 
-          <div id="no-products-found" class="card text-center py-12" style="display: none;">
-            <div class="card-content">
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="h-12 w-12 text-muted-foreground mx-auto mb-4">
-                <path d="m7.5 4.27 9 5.15" />
-                <path d="m21 8-9 5.15-9-5.15" />
-                <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
-                <path d="m12 22.5V13" />
-              </svg>
-              <h3 class="text-lg font-semibold mb-2 text-foreground">No se encontraron productos</h3>
-              <p class="text-muted-foreground mb-4">No hay productos que coincidan con tu búsqueda.</p>
-              <button class="btn btn-primary" onclick="toggleModal(true)">
-
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="h-4 w-4 mr-2">
-                  <path d="M12 5v14" />
-                  <path d="M5 12h14" />
-                </svg>
-                Agregar Primer Producto
-              </button>
-            </div>
-          </div>
         </div>
-
-      </div>
     </main>
 
 
-    <div id="add-product-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      style="display: none;">
-      <div class="bg-card p-6 rounded-lg shadow-lg w-full max-w-md mx-4">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold text-foreground">Agregar Producto</h2>
-          <button id="close-modal-btn" class="text-muted-foreground hover:text-foreground">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </div>
-        <form id="add-product-form" class="space-y-4">
-          <div>
-            <label for="product-name" class="block text-sm font-medium text-foreground mb-1">Nombre</label>
-            <input type="text" id="product-name" name="name" class="input w-full" required
-              placeholder="Ej: Laptop Dell XPS 13">
-          </div>
+    <div th:replace="~{content/productos/modal_agregarProducto :: modal-agregar-producto}"></div>
+</div>
 
+<script th:src="@{/scripts/main.js}"></script>
+<script th:src="@{/scripts/productos.js}"></script>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-              <label for="product-category" class="block text-sm font-medium text-foreground mb-1">Categoría</label>
-              <select id="product-category" name="category" class="input w-full" required>
-                <option value="">Seleccionar categoría</option>
-                <option value="Electrónicos">Electrónicos</option>
-                <option value="Accesorios">Accesorios</option>
-                <option value="Audio">Audio</option>
-                <option value="Computadoras">Computadoras</option>
-                <option value="Periféricos">Periféricos</option>
-              </select>
-            </div>
-            <div>
-              <label for="product-status" class="block text-sm font-medium text-foreground mb-1">Estado</label>
-              <select id="product-status" name="status" class="input w-full" required>
-                <option value="En Stock">En Stock</option>
-                <option value="Bajo Stock">Bajo Stock</option>
-                <option value="Agotado">Agotado</option>
-              </select>
-            </div>
-          </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
 
+    const abrirModal = /*[[${abrirModal}]]*/ false;
+    if (abrirModal) {
+        toggleModal(true);
+    }
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-              <label for="product-price" class="block text-sm font-medium text-foreground mb-1">Precio</label>
-              <input type="number" id="product-price" name="price" step="0.01" class="input w-full" required
-                placeholder="0.00">
-            </div>
-            <div>
-              <label for="product-min-stock" class="block text-sm font-medium text-foreground mb-1">Stock</label>
-              <input type="number" id="product-min-stock" name="min_stock" class="input w-full" required
-                placeholder="0">
-            </div>
-          </div>
+    const exito = /*[[${exito}]]*/ null;
+    const error = /*[[${error}]]*/ null;
 
-            <div>
-                <label class="block text-sm font-medium text-foreground mb-1">Imagen del Producto</label>
-                <div class="file-upload-area" id="file-upload-area">
-                    <input type="file" id="product-image" name="image" accept="image/*" class="sr-only" />
-                    <div class="flex flex-col items-center justify-center py-6 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8 text-muted-foreground mb-2">
-                            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
-                            <path d="M12 12v6"></path>
-                            <path d="m15 15-3 3-3-3"></path>
-                        </svg>
-                        <p class="text-sm text-muted-foreground">Arrastra y suelta tu imagen aquí o
-                            <span class="text-primary font-medium cursor-pointer">haz clic para seleccionar</span>
-                        </p>
-                        <p class="text-xs text-muted-foreground mt-1">PNG, JPG, GIF (Máx. 5MB)</p>
-                    </div>
-                </div>
-                <p id="file-name-display" class="text-xs text-muted-foreground mt-2"></p>
-            </div>
-          <div class="flex gap-2 pt-4">
-            <button type="button" id="cancel-btn" class="btn btn-outline flex-1">Cancelar</button>
-            <button type="submit" class="btn btn-primary flex-1">Agregar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+    if (exito) {
+      Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: exito,
+          confirmButtonText: 'Aceptar'
+      });
+    }
 
-  <script th:src="@{/scripts/main.js}"></script>
-  <script th:src="@{/scripts/productos.js}"></script>
+    if (error) {
+      Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+          confirmButtonText: 'Intentar de nuevo'
+      });
+    }
+    /*]]>*/
+</script>
 </body>
 
 </html>
