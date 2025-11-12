@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,54 +22,37 @@ public class UsuarioService {
     private final RolRepository rolRepository;
     private final PasswordEncoder passwordEncoder;
     
-    // Crear Usuario
+    @Transactional
     public UsuarioDTO crearUsuario(UsuarioDTO dto, RolList rolNombre) {
         Rol rol = rolRepository.findByNombre(rolNombre)
-            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado en la base de datos."));
+            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado."));
+        
+        if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("El correo electrónico ya está en uso.");
+        }
         
         Usuario usuario = mapToEntity(dto, rol);
         Usuario guardado = usuarioRepository.save(usuario);
         return mapToDTO(guardado);
     }
     
-    // Leer usuarios activos (excepto administradores)
-    public List<UsuarioDTO> listarUsuariosActivos() {
-        return usuarioRepository.findAll().stream()
-            .filter(Usuario::isActivo)
-            .filter(u -> u.getRol().getNombre() != RolList.ROLE_ADMINISTRADOR)
-            .map(this::mapToDTO)
-            .collect(Collectors.toList());
-    }
-    
-    // Leer todos los usuarios
-    public List<Usuario> obtenerTodosUsuarios() {
+    public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
     
-    // Ver detalles de un usuario (solo lectura)
     public Optional<UsuarioDTO> obtenerUsuario(String id) {
-        return usuarioRepository.findById(id)
-            .filter(u -> u.getRol().getNombre() != RolList.ROLE_ADMINISTRADOR)
-            .map(this::mapToDTO);
+        return usuarioRepository.findById(id).map(this::mapToDTO);
     }
     
-    // Desactivar usuario (soft delete)
-    public boolean desactivarUsuario(String id) {
+    @Transactional
+    public boolean cambiarEstado(String id) {
         return usuarioRepository.findById(id)
             .map(usuario -> {
-                usuario.setActivo(false);
+                usuario.setActivo(!usuario.isActivo());
                 usuarioRepository.save(usuario);
                 return true;
             })
             .orElse(false);
-    }
-    
-    // Autenticación (solo usuarios activos)
-    public Optional<UsuarioDTO> autenticar(String email, String password) {
-        return usuarioRepository.findByEmail(email)
-            .filter(Usuario::isActivo)
-            .filter(u -> passwordEncoder.matches(password, u.getPassword()))
-            .map(this::mapToDTO);
     }
     
     private UsuarioDTO mapToDTO(Usuario usuario) {

@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 
 public enum RolList {
-    ROLE_ADMINISTRADOR("Administrador", ""),
-    ROLE_EMPLEADO("Empleado", "");
+    ROLE_ADMINISTRADOR("Administrador", "badge badge-default"),
+    ROLE_EMPLEADO("Empleado", "badge badge-warning");
     
     private final String displayName;
     private final String cssClass;

@@ -1,25 +1,34 @@
-<form id="formCrearUsuario" class="modal-form" th:fragment="formulario-usuarios">
+<form id="formCrearUsuario" class="modal-form" th:fragment="formulario-usuarios" th:action="@{/auth/usuarios/crear}"
+  th:object="${nuevoUsuario}" method="post">
+
   <div class="form-group">
     <label for="nuevoUsuario">Nombre de Usuario</label>
-    <input type="text" id="nuevoUsuario" class="input" placeholder="Ej: juan.diaz" required>
+    <input type="text" id="nuevoUsuario" th:field="*{username}" class="input" placeholder="Ej: juan.diaz" required>
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-500 text-xs m-0"></p>
   </div>
-  <div class="form-group">
-    <label for="nuevoNombre">Nombre Completo</label>
-    <input type="text" id="nuevoNombre" class="input" placeholder="Ej: Juan Díaz" required>
-  </div>
+
   <div class="form-group">
     <label for="nuevoCorreo">Correo Electrónico</label>
-    <input type="email" id="nuevoCorreo" class="input" placeholder="Ej: juan@multisupply.com" required>
+    <input type="email" id="nuevoCorreo" th:field="*{email}" class="input" placeholder="Ej: juan@multisupply.com"
+      required>
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs m-0"></p>
   </div>
+
+  <div class="form-group">
+    <label for="nuevaClave">Contraseña</label>
+    <input type="password" id="nuevaClave" th:field="*{password}" class="input" placeholder="*********" required>
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs m-0"></p>
+  </div>
+
   <div class="form-group">
     <label for="nuevoRol">Rol</label>
-    <select id="nuevoRol" class="input" required>
+    <select id="nuevoRol" name="rolId" class="input" required>
       <option value="">Selecciona un rol</option>
-      <option value="admin">Administrador</option>
-      <option value="gerente">Gerente</option>
-      <option value="empleado">Empleado</option>
+      <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre.displayName}">
+      </option>
     </select>
   </div>
+
   <div class="modal-actions">
     <button type="button" class="btn btn-outline modal-close-btn">Cancelar</button>
     <button type="submit" class="btn btn-primary">Crear Usuario</button>

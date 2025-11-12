@@ -31,7 +31,7 @@ public class WebController {
     @GetMapping("/perfil")
     public String web5() { return "perfil"; }
     
-    @GetMapping("/usuarios")
-    public String web6() { return "usuarios"; }
+//    @GetMapping("/usuarios")
+//    public String web6() { return "usuarios"; }
     
 }

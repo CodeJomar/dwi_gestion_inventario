@@ -9,53 +9,24 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Juan Díaz</td>
-      <td>juan.diaz@multisupply.com</td>
-      <td><span class="badge badge-default">Administrador</span></td>
-      <td><span class="badge badge-success">Activo</span></td>
+    <tr th:each="usuario : ${usuarios}">
+      <td th:text="${usuario.username}"></td>
+      <td th:text="${usuario.email}"></td>
       <td>
-        <div class="action-buttons">
-          <button class="btn-icon btn-detalles" title="Ver detalles">
-            <i class="fas fa-eye"></i>
-          </button>
-          <button class="btn-icon btn-cambiar-estado" title="Cambiar estado">
-            <i class="fas fa-toggle-on"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>María García</td>
-      <td>maria.garcia@multisupply.com</td>
-      <td><span class="badge badge-warning">Empleado</span></td>
-      <td><span class="badge badge-success">Activo</span></td>
-      <td>
-        <div class="action-buttons">
-          <button class="btn-icon btn-detalles" title="Ver detalles">
-            <i class="fas fa-eye"></i>
-          </button>
-          <button class="btn-icon btn-cambiar-estado" title="Cambiar estado">
-            <i class="fas fa-toggle-on"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>Carlos Rodríguez</td>
-      <td>carlos.rodriguez@multisupply.com</td>
-      <td><span class="badge badge-warning">Empleado</span></td>
-      <td><span class="badge badge-destructive">Inactivo</span>
+        <span th:text="${usuario.rol.nombre.displayName}" th:classappend="${usuario.rol.nombre.cssClass}"></span>
       </td>
       <td>
-        <div class="action-buttons">
-          <button class="btn-icon btn-detalles" title="Ver detalles">
-            <i class="fas fa-eye"></i>
-          </button>
-          <button class="btn-icon btn-cambiar-estado" title="Cambiar estado">
-            <i class="fas fa-toggle-off"></i>
-          </button>
-        </div>
+        <span th:classappend="${usuario.activo} ? 'badge badge-success' : 'badge badge-destructive'"
+          th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
+      </td>
+      <td class="acciones">
+        <a class="btn-icon btn-ver-detalles" th:attr="data-id=${usuario.id}" title="Ver detalles">
+          <i class="fas fa-eye"></i>
+        </a>
+
+        <a class="btn-icon btn-cambiar-estado" th:attr="data-id=${usuario.id}" title="Cambiar estado">
+          <i class="fas fa-toggle-on"></i>
+        </a>
       </td>
     </tr>
   </tbody>
