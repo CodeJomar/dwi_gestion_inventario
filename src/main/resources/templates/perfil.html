@@ -8,7 +8,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Added Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/styles/globals.css}">
     <link rel="stylesheet" th:href="@{/styles/perfil.css}">
@@ -25,9 +24,7 @@
 
             <nav th:replace="~{fragments/nav :: nav-dashboard}"></nav>
 
-            <!-- Sección de Información Personal -->
             <div class="card profile-card">
-                <!-- Centered title -->
                 <div class="card-header text-center">
                     <h2 class="text-lg font-semibold flex items-center justify-center gap-2 text-foreground">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-primary"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -37,16 +34,14 @@
                 <div class="card-content">
                     <div class="profile-form">
 
-                        <!-- Optimized grid layout - 3 rows for desktop -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
 
-                            <!-- ROW 1: Nombre and Nombres y Apellidos -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-user-circle text-primary mr-2"></i>Nombre
                                 </label>
                                 <input type="text" id="nombre" class="input input-readonly" disabled value="Juan">
-                                <span class="text-xs text-muted-foreground">No puede ser modificado</span>
+                                <span class="text-xs text-muted-foreground text-center">No puede ser modificado</span>
                             </div>
 
                             <div class="form-group md:col-span-2">
@@ -56,16 +51,14 @@
                                 <input type="text" id="nombresApellidos" class="input" value="Juan Carlos Pérez García López">
                             </div>
 
-                            <!-- ROW 2: Correo, DNI, Fecha de Nacimiento -->
                             <div class="form-group md:col-span-1">
                                 <label class="form-label">
                                     <i class="fas fa-envelope text-primary mr-2"></i>Correo Electrónico
                                 </label>
                                 <input type="email" id="correo" class="input input-readonly" disabled value="juan.perez@example.com">
-                                <span class="text-xs text-muted-foreground">No puede ser modificado</span>
+                                <span class="text-xs text-muted-foreground text-center">No puede ser modificado</span>
                             </div>
 
-                            <!-- DNI moved to row 2, next to correo -->
                             <div class="form-group md:col-span-1">
                                 <label class="form-label">
                                     <i class="fas fa-id-badge text-primary mr-2"></i>DNI
@@ -80,16 +73,14 @@
                                 <input type="date" id="fechaNacimiento" class="input" value="1990-05-15">
                             </div>
 
-                            <!-- ROW 3: Edad, Teléfono, País -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-birthday-cake text-primary mr-2"></i>Edad
                                 </label>
                                 <input type="number" id="edad" class="input input-readonly" disabled value="34">
-                                <span class="text-xs text-muted-foreground">Automática</span>
+                                <span class="text-xs text-muted-foreground text-center">Automática</span>
                             </div>
 
-                            <!-- Teléfono moved to row 3 -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-phone text-primary mr-2"></i>Teléfono
@@ -97,7 +88,6 @@
                                 <input type="tel" id="telefono" class="input" value="+51 987654321">
                             </div>
 
-                            <!-- País moved to row 3 -->
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-globe text-primary mr-2"></i>País
@@ -118,7 +108,6 @@
 
                         </div>
 
-                        <!-- Action buttons with icons on separate row -->
                         <div class="form-actions mt-6">
                             <button id="btn-editar" class="btn btn-primary" title="Editar perfil">
                                 <i class="fas fa-pen-to-square mr-2"></i>Editar Perfil
