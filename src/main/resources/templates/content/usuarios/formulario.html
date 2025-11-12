@@ -1,0 +1,41 @@
+<form id="formCrearUsuario" class="modal-form" th:fragment="formulario-usuarios" th:object="${nuevoUsuario}"
+  th:action="@{/auth/usuarios/crear}" method="post">
+
+  <div class="form-group">
+    <label for="nuevoUsuario">Nombre de Usuario</label>
+    <input type="text" id="nuevoUsuario" class="input" th:field="*{username}" placeholder="Ej: juan.diaz" required>
+    <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+      <small class="error-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="nuevoCorreo">Correo Electrónico</label>
+    <input type="email" id="nuevoCorreo" class="input" th:field="*{email}" placeholder="Ej: juan@multisupply.com"
+      required>
+    <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+      <small class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="nuevaClave">Contraseña</label>
+    <input type="password" id="nuevaClave" class="input" th:field="*{password}" placeholder="*********" required>
+    <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+      <small class="error-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="nuevoRol">Rol</label>
+    <select id="nuevoRol" class="input" name="rolId" required>
+      <option value="" selected disabled>Selecciona un rol</option>
+      <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre.displayName}"></option>
+    </select>
+  </div>
+
+  <div class="modal-actions">
+    <button type="button" class="btn btn-outline modal-close-btn">Cancelar</button>
+    <button type="submit" class="btn btn-primary">Crear Usuario</button>
+  </div>
+</form>

@@ -18,7 +18,7 @@ public class Rol {
     private Long id;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "nombre_rol", length = 20)
+    @Column(nullable = false, name = "nombre_rol", length = 50)
     private RolList nombre;
 
 }

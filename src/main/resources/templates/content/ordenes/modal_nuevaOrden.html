@@ -1,0 +1,76 @@
+<div th:fragment="modal-nueva-orden">
+
+    <div id="modal-overlay" class="modal-overlay"
+         th:classappend="${abrirModal} ? 'active' : ''">
+
+        <div id="new-order-modal" class="modal"
+             th:style="${abrirModal} ? 'transform: scale(1);' : ''">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Nueva Orden</h2>
+                    <button id="close-modal-btn" class="modal-close" onclick="cerrarModalOrden()">&times;</button>
+                </div>
+
+                <form id="new-order-form"
+                      th:action="@{/auth/ordenes/crear}"
+                      th:object="${nuevaOrden}"
+                      method="post"
+                      novalidate>
+
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="order-producto" class="form-label required">Producto</label>
+                            <select id="order-producto" class="form-select" required th:field="*{productoId}">
+                                <option value="">-- Seleccione un producto --</option>
+                                <option th:each="prod : ${productosActivos}"
+                                        th:value="${prod.id}"
+                                        th:text="${prod.nombre} + ' (Stock: ' + ${prod.stock} + ')'"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('productoId')}" th:errors="*{productoId}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="order-tipo" class="form-label required">Tipo de Orden</label>
+                                <select id="order-tipo" class="form-select" required th:field="*{tipo}">
+                                    <option value="">-- Seleccione tipo --</option>
+                                    <option th:each="tipo : ${tiposOrden}"
+                                            th:value="${tipo}"
+                                            th:text="${tipo.displayName}"></option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}" class="text-red-500 text-xs mt-1"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="order-motivo" class="form-label required">Motivo</label>
+                                <select id="order-motivo" class="form-select" required th:field="*{motivo}">
+                                    <option value="">-- Seleccione motivo --</option>
+                                    <option th:each="motivo : ${motivosOrden}"
+                                            th:value="${motivo}"
+                                            th:text="${motivo.displayName}"></option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}" class="text-red-500 text-xs mt-1"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="order-cantidad" class="form-label required">Cantidad</label>
+                            <input type="number" id="order-cantidad" class="form-input" required placeholder="0" min="1" th:field="*{cantidad}">
+                            <p th:if="${#fields.hasErrors('cantidad')}" th:errors="*{cantidad}" class="text-red-500 text-xs mt-1"></p>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="cancel-btn" class="btn-cancel" onclick="cerrarModalOrden()">Cancelar</button>
+                        <button type="submit" class="btn-submit">Guardar Orden</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

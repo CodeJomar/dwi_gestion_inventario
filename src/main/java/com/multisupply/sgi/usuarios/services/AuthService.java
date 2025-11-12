@@ -11,48 +11,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
-public class UsuarioService {
+public class AuthService {
     
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
     private final PasswordEncoder passwordEncoder;
     
-    @Transactional
-    public UsuarioDTO crearUsuario(UsuarioDTO dto, RolList rolNombre) {
-        Rol rol = rolRepository.findByNombre(rolNombre)
-            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado."));
-        
-        if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("El correo electrónico ya está en uso.");
-        }
+    public UsuarioDTO registrarUsuario(UsuarioDTO dto) {
+        Rol rol = rolRepository.findByNombre(RolList.ROLE_ADMINISTRADOR)
+            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado en la base de datos."));
         
         Usuario usuario = mapToEntity(dto, rol);
         Usuario guardado = usuarioRepository.save(usuario);
         return mapToDTO(guardado);
     }
     
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
-    }
-    
-    public Optional<UsuarioDTO> obtenerUsuario(String id) {
-        return usuarioRepository.findById(id).map(this::mapToDTO);
-    }
-    
     @Transactional
-    public boolean cambiarEstado(String id) {
-        return usuarioRepository.findById(id)
-            .map(usuario -> {
-                usuario.setActivo(!usuario.isActivo());
-                usuarioRepository.save(usuario);
-                return true;
-            })
-            .orElse(false);
+    public void actualizarPassword(String email, String nuevaPassword) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado."));
+        
+        usuario.setPassword(passwordEncoder.encode(nuevaPassword));
+        usuarioRepository.save(usuario);
     }
     
     private UsuarioDTO mapToDTO(Usuario usuario) {

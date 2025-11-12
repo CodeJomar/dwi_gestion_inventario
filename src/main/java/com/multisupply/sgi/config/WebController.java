@@ -8,21 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class WebController {
 
-   @GetMapping("/dashboard")
+    @GetMapping("/dashboard")
     public String web1() {
-       return "dashboard";
-   }
+        return "dashboard";
+    }
 
-    @GetMapping("/ordenes")
-    public String web2() {
-       return "ordenes";
-    }
-    
-    @GetMapping("/productos")
-    public String web3() {
-        return "productos";
-    }
-    
     @GetMapping("/reportes")
     public String web4() {
         return "reportes";
@@ -30,4 +20,8 @@ public class WebController {
 
     @GetMapping("/perfil")
     public String web5() { return "perfil"; }
+    
+//    @GetMapping("/usuarios")
+//    public String web6() { return "usuarios"; }
+    
 }
