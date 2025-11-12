@@ -50,6 +50,14 @@ function setupModalListeners() {
       document.querySelectorAll(".modal.show").forEach((modal) => closeModal(modal))
     }
   })
+
+  document.querySelectorAll(".btn-ver-detalles").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const modalDetalles = document.getElementById("modalDetalles");
+      openModal(modalDetalles);
+    });
+  });
 }
 
 function openModal(modal) {
