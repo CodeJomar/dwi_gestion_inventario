@@ -1,16 +1,22 @@
 package com.multisupply.sgi.usuarios.controllers;
 
+import com.multisupply.sgi.usuarios.entities.dtos.DetallesUsuarioDTO;
 import com.multisupply.sgi.usuarios.entities.dtos.UsuarioDTO;
 import com.multisupply.sgi.usuarios.entities.models.Rol;
 import com.multisupply.sgi.usuarios.repositories.RolRepository;
+import com.multisupply.sgi.usuarios.services.PerfilService;
 import com.multisupply.sgi.usuarios.services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/auth/usuarios")
@@ -91,5 +97,13 @@ public class UsuarioController {
             redirect.addFlashAttribute("mensaje", "No se pudo actualizar el estado del usuario.");
         }
         return "redirect:/auth/usuarios";
+    }
+    
+    @GetMapping("/detalle-json/{id}")
+    @ResponseBody
+    public ResponseEntity<?> obtenerDetalleJson(@PathVariable String id) {
+        return usuarioService.obtenerDetallesUsuario(id)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).<DetallesUsuarioDTO>build());
     }
 }

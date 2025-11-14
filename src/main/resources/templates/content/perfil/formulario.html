@@ -1,0 +1,95 @@
+<form class="profile-form" th:fragment="formulario-perfil" th:action="@{/auth/perfil/guardar}" th:object="${perfil}"
+  method="post">
+
+  <input type="hidden" th:field="*{id}">
+  <input type="hidden" th:field="*{usuarioId}">
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+    <!-- NOMBRE (solo lectura) -->
+    <div class="form-group">
+      <label class="form-label">
+        <i class="fas fa-user-circle text-primary mr-2"></i>Usuario
+      </label>
+      <input type="text" class="input input-readonly" readonly th:value="*{username}">
+      <span class="text-xs text-muted-foreground ml-1 mt-1">No puede ser modificado</span>
+    </div>
+
+    <!-- NOMBRE COMPLETO -->
+    <div class="form-group md:col-span-2">
+      <label class="form-label">
+        <i class="fas fa-id-card text-primary mr-2"></i>Nombres y Apellidos
+      </label>
+      <input type="text" id="Nombre-Completo" th:field="*{nombreCompleto}" class="input">
+      <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+        <small class="text-error" th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}"></small>
+      </p>
+    </div>
+
+    <!-- CORREO (solo lectura) -->
+    <div class="form-group">
+      <label class="form-label">
+        <i class="fas fa-envelope text-primary mr-2"></i>Correo Electrónico
+      </label>
+      <input type="email" class="input input-readonly" readonly th:value="*{email}">
+      <span class="text-xs text-muted-foreground ml-1 mt-1">No puede ser modificado</span>
+    </div>
+
+    <!-- DNI -->
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-id-badge text-primary mr-2"></i>DNI</label>
+      <input type="text" id="DNI" th:field="*{dni}" class="input">
+      <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+        <small class="text-error" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></small>
+      </p>
+    </div>
+
+    <!-- FECHA NACIMIENTO -->
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-calendar text-primary mr-2"></i>Fecha de Nacimiento</label>
+      <input type="date" id="Fecha-Nacimiento" th:field="*{fechaNacimiento}" class="input">
+      <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+        <small class="text-error" th:if="${#fields.hasErrors('fechaNacimiento')}"
+          th:errors="*{fechaNacimiento}"></small>
+      </p>
+    </div>
+
+    <!-- EDAD (solo lectura) -->
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-birthday-cake text-primary mr-2"></i>Edad</label>
+      <input type="number" id="edad" th:value="*{edad}" class="input input-readonly" disabled>
+      <span class="text-xs text-muted-foreground ml-1 mt-1">Automática</span>
+    </div>
+
+    <!-- TELEFONO -->
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-phone text-primary mr-2"></i>Teléfono</label>
+      <input type="text" id="Teléfono" th:field="*{telefono}" class="input">
+      <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+        <small class="text-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></small>
+      </p>
+    </div>
+
+    <!-- PAIS -->
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-globe text-primary mr-2"></i>País</label>
+      <select id="pais" th:field="*{pais}" class="input">
+        <option th:each="p : ${paises}" th:value="${p}" th:text="${p.displayName}"></option>
+      </select>
+      <p class="text-red-500 text-xs m-0 ml-1 mt-1">
+        <small class="text-error" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></small>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Acciones -->
+  <div class="form-actions mt-6">
+
+    <button id="btn-guardar" type="submit" class="btn btn-primary">
+      <i class="fas fa-check-circle mr-2"></i>Guardar Cambios
+    </button>
+
+  </div>
+
+</form>

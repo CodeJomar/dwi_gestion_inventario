@@ -50,14 +50,15 @@ function setupModalListeners() {
       document.querySelectorAll(".modal.show").forEach((modal) => closeModal(modal))
     }
   })
-
-  document.querySelectorAll(".btn-ver-detalles").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      const modalDetalles = document.getElementById("modalDetalles");
-      openModal(modalDetalles);
+  /*
+    document.querySelectorAll(".btn-ver-detalles").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const modalDetalles = document.getElementById("modalDetalles");
+        openModal(modalDetalles);
+      });
     });
-  });
+  */
 }
 
 function openModal(modal) {
@@ -73,13 +74,22 @@ function closeModal(modal) {
 }
 
 function setupTableListeners() {
+
+  document.querySelectorAll(".btn-ver-detalles").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const userId = this.getAttribute("data-id");
+      cargarDetalles(userId);
+    });
+  });
+
   document.querySelectorAll(".btn-cambiar-estado").forEach((btn) => {
     btn.addEventListener("click", function (e) {
       e.preventDefault()
       const row = this.closest("tr")
       handleChangeStatus(row)
-    })
-  })
+    });
+  });
 }
 
 function handleChangeStatus(row) {
@@ -128,4 +138,34 @@ function handleChangeStatus(row) {
         .catch((err) => console.error("Error actualizando estado:", err))
     }
   })
+}
+
+function cargarDetalles(id) {
+
+  fetch(`/auth/usuarios/detalle-json/${id}`)
+    .then(res => res.json())
+    .then(data => {
+
+      if (data.error) {
+        Swal.fire("Error", data.error, "error");
+        return;
+      }
+
+      document.getElementById("detalleUsuario").textContent = data.username;
+      document.getElementById("detalleNombre").textContent = data.nombreCompleto;
+      document.getElementById("detalleCorreo").textContent = data.email;
+      document.getElementById("detalleTelefono").textContent = data.telefono;
+      document.getElementById("detalleDNI").textContent = data.dni;
+      document.getElementById("detalleEdad").textContent = data.edad;
+      document.getElementById("detalleFecha").textContent = data.fechaNacimiento;
+      document.getElementById("detalleRol").textContent = data.rol;
+      document.getElementById("detalleEstado").textContent = data.activo ? "Activo" : "Inactivo";
+
+      const modal = document.getElementById("modalDetalles");
+      openModal(modal);
+    })
+    .catch(err => {
+      console.error(err);
+      Swal.fire("Error", "No se pudieron cargar los detalles del usuario", "error");
+    });
 }

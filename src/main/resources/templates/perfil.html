@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - MultiSupply S.A.</title>
+    <title>MultiSupply S.A. - Mi Perfil</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Added Font Awesome for icons -->
+    <th:block th:replace="~{fragments/links :: cdnLinks-up}"></th:block>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/styles/globals.css}">
     <link rel="stylesheet" th:href="@{/styles/perfil.css}">
@@ -16,133 +14,68 @@
 
 <body class="bg-background text-foreground">
 
-<div id="profile-system" class="min-h-screen flex flex-col">
+    <div id="profile-system" class="min-h-screen flex flex-col">
 
-    <header th:replace="~{fragments/header :: header}"></header>
+        <header th:replace="~{fragments/header :: header}"></header>
 
-    <main class="flex-1 container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <!-- increased top padding from py-2 to py-6 to create more space below the nav -->
-        <div id="profile-container">
+        <main class="flex-1 container mx-auto px-4 py-6 sm:px-6 lg:px-8">
 
-            <nav th:replace="~{fragments/nav :: nav-profile}"></nav>
+            <div id="profile-container">
 
-            <!-- Sección de Información Personal -->
-            <div class="card profile-card">
-                <!-- Centered title -->
-                <div class="card-header text-center">
-                    <h2 class="text-lg font-semibold flex items-center justify-center gap-2 text-foreground">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-primary"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        Información Personal
-                    </h2>
-                </div>
-                <div class="card-content">
-                    <div class="profile-form">
+                <nav th:replace="~{fragments/nav :: nav-basic}"></nav>
 
-                        <!-- Optimized grid layout - 3 rows for desktop -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <!-- Sección de Información Personal -->
+                <div class="card profile-card">
+                    <!-- Centered title -->
+                    <div class="card-header text-center">
+                        <h2 class="text-lg font-semibold flex items-center justify-center gap-2 text-foreground">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="h-5 w-5 text-primary">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Información Personal
+                        </h2>
+                    </div>
+                    <div class="card-content">
 
-                            <!-- ROW 1: Nombre and Nombres y Apellidos -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-user-circle text-primary mr-2"></i>Nombre
-                                </label>
-                                <input type="text" id="nombre" class="input input-readonly" disabled value="Juan">
-                                <span class="text-xs text-muted-foreground text-center">No puede ser modificado</span>
-                                <!-- added text-center class for better alignment -->
-                            </div>
+                        <div th:replace="~{content/perfil/formulario :: formulario-perfil}"></div>
 
-                            <div class="form-group md:col-span-2">
-                                <label class="form-label">
-                                    <i class="fas fa-id-card text-primary mr-2"></i>Nombres y Apellidos
-                                </label>
-                                <input type="text" id="nombresApellidos" class="input" value="Juan Carlos Pérez García López">
-                            </div>
-
-                            <!-- ROW 2: Correo, DNI, Fecha de Nacimiento -->
-                            <div class="form-group md:col-span-1">
-                                <label class="form-label">
-                                    <i class="fas fa-envelope text-primary mr-2"></i>Correo Electrónico
-                                </label>
-                                <input type="email" id="correo" class="input input-readonly" disabled value="juan.perez@example.com">
-                                <span class="text-xs text-muted-foreground text-center">No puede ser modificado</span>
-                                <!-- added text-center class for better alignment -->
-                            </div>
-
-                            <!-- DNI moved to row 2, next to correo -->
-                            <div class="form-group md:col-span-1">
-                                <label class="form-label">
-                                    <i class="fas fa-id-badge text-primary mr-2"></i>DNI
-                                </label>
-                                <input type="text" id="dni" class="input" value="12345678">
-                            </div>
-
-                            <div class="form-group md:col-span-1">
-                                <label class="form-label">
-                                    <i class="fas fa-calendar text-primary mr-2"></i>Fecha de Nacimiento
-                                </label>
-                                <input type="date" id="fechaNacimiento" class="input" value="1990-05-15">
-                            </div>
-
-                            <!-- ROW 3: Edad, Teléfono, País -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-birthday-cake text-primary mr-2"></i>Edad
-                                </label>
-                                <input type="number" id="edad" class="input input-readonly" disabled value="34">
-                                <span class="text-xs text-muted-foreground text-center">Automática</span>
-                                <!-- added text-center class for better alignment -->
-                            </div>
-
-                            <!-- Teléfono moved to row 3 -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-phone text-primary mr-2"></i>Teléfono
-                                </label>
-                                <input type="tel" id="telefono" class="input" value="+51 987654321">
-                            </div>
-
-                            <!-- País moved to row 3 -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-globe text-primary mr-2"></i>País
-                                </label>
-                                <select id="pais" class="input">
-                                    <option value="Peru">Perú</option>
-                                    <option value="Argentina">Argentina</option>
-                                    <option value="Bolivia">Bolivia</option>
-                                    <option value="Brasil">Brasil</option>
-                                    <option value="Colombia">Colombia</option>
-                                    <option value="Ecuador">Ecuador</option>
-                                    <option value="Chile">Chile</option>
-                                    <option value="Paraguay">Paraguay</option>
-                                    <option value="Uruguay">Uruguay</option>
-                                    <option value="Venezuela">Venezuela</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <!-- Action buttons with icons on separate row -->
-                        <div class="form-actions mt-6">
-                            <button id="btn-editar" class="btn btn-primary" title="Editar perfil">
-                                <i class="fas fa-pen-to-square mr-2"></i>Editar Perfil
-                            </button>
-                            <button id="btn-guardar" class="btn btn-success hidden" title="Guardar cambios">
-                                <i class="fas fa-check-circle mr-2"></i>Guardar Cambios
-                            </button>
-                            <button id="btn-cancelar" class="btn btn-outline hidden" title="Cancelar edición">
-                                <i class="fas fa-times-circle mr-2"></i>Cancelar
-                            </button>
-                        </div>
                     </div>
                 </div>
+
             </div>
+        </main>
+    </div>
 
-        </div>
-    </main>
-</div>
+    <th:block th:replace="~{fragments/links :: cdnLinks-up}"></th:block>
 
-<script th:src="@{/scripts/perfil.js}"></script>
+    <script th:src="@{/scripts/main.js}"></script>
+    <script th:src="@{/scripts/perfil.js}"></script>
+
+    <div th:if="${exito}">
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Perfil actualizado',
+                text: '[[${ mensaje }]]',
+                confirmButtonColor: "Aceptar"
+            });
+        </script>
+    </div>
+
+    <div th:if="${error}">
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar',
+                text: '[[${ mensaje }]]',
+                confirmButtonColor: "Intentar de nuevo"
+            });
+        </script>
+    </div>
+
 </body>
 
 </html>

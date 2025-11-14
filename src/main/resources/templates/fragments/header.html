@@ -30,13 +30,15 @@
                     Usuarios
                 </a>
                 <div class="dropdown">
-                    <button onclick="toggleUserMenu()" class="btn btn-outline text-sm">
+                    <button onclick="toggleUserMenu()" class="btn btn-outline text-sm flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="h-4 w-4 mr-2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                             <circle cx="12" cy="7" r="4" />
                         </svg>
+                        <span th:text="${#authentication.principal.username}"
+                            class="hidden sm:inline font-semibold"></span>
                     </button>
                     <div id="user-dropdown" class="dropdown-content">
                         <a th:href="@{/auth/perfil}" class="dropdown-item">Ver Perfil</a>
