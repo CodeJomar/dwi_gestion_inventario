@@ -1,6 +1,7 @@
 package com.multisupply.sgi.ordenes.services;
 
 import com.multisupply.sgi.ordenes.entities.dtos.OrdenDTO;
+import com.multisupply.sgi.ordenes.entities.enums.MotivoOrden;
 import com.multisupply.sgi.ordenes.entities.enums.TipoOrden;
 import com.multisupply.sgi.ordenes.entities.models.Orden;
 import com.multisupply.sgi.ordenes.repositories.OrdenRepository;
@@ -9,12 +10,20 @@ import com.multisupply.sgi.productos.entities.models.Producto;
 import com.multisupply.sgi.productos.repositories.ProductoRepository;
 import com.multisupply.sgi.usuarios.entities.models.Usuario;
 import com.multisupply.sgi.usuarios.repositories.UsuarioRepository;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +63,6 @@ public class OrdenService {
         }
 
         BigDecimal monto = producto.getPrecio().multiply(new BigDecimal(cantidad));
-
         Orden orden = new Orden();
         orden.setCantidad(cantidad);
         orden.setMonto(monto);
@@ -62,18 +70,47 @@ public class OrdenService {
         orden.setTipo(dto.getTipo());
         orden.setProducto(producto);
         orden.setCreadoPor(usuario);
-
         productoRepository.save(producto);
         Orden ordenGuardada = ordenRepository.save(orden);
-
         return mapToDTO(ordenGuardada);
     }
 
-    public List<OrdenDTO> listarOrdenes() {
-        return ordenRepository.findAll().stream()
-                .sorted((o1, o2) -> o2.getFechaCreacion().compareTo(o1.getFechaCreacion()))
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
+    public Page<OrdenDTO> listarOrdenes(String busqueda, String tipo, String motivo, String fechaDesde, Pageable pageable) {
+
+        Specification<Orden> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(busqueda)) {
+                String likePattern = "%" + busqueda.toLowerCase() + "%";
+                Predicate idLike = cb.like(cb.lower(root.get("id")), likePattern);
+                Predicate productoLike = cb.like(cb.lower(root.join("producto").get("nombre")), likePattern);
+                Predicate usuarioLike = cb.like(cb.lower(root.join("creadoPor").get("email")), likePattern);
+
+                predicates.add(cb.or(idLike, productoLike, usuarioLike));
+            }
+
+            if (StringUtils.hasText(tipo)) {
+                try {
+                    predicates.add(cb.equal(root.get("tipo"), TipoOrden.valueOf(tipo)));
+                } catch (Exception e) { /* Ignorar valor inválido */ }
+            }
+
+            if (StringUtils.hasText(motivo)) {
+                try {
+                    predicates.add(cb.equal(root.get("motivo"), MotivoOrden.valueOf(motivo)));
+                } catch (Exception e) { /* Ignorar valor inválido */ }
+            }
+
+            if (StringUtils.hasText(fechaDesde)) {
+                try {
+                    LocalDate date = LocalDate.parse(fechaDesde, DateTimeFormatter.ISO_LOCAL_DATE);
+                    predicates.add(cb.greaterThanOrEqualTo(root.get("fechaCreacion"), date.atStartOfDay()));
+                } catch (Exception e) { /* Ignorar fecha inválida */ }
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return ordenRepository.findAll(spec, pageable).map(this::mapToDTO);
     }
 
     public OrdenDTO obtenerOrdenPorId(String id) {
@@ -83,12 +120,10 @@ public class OrdenService {
     }
 
     public OrdenDTO actualizarOrden(String id, OrdenDTO dto) {
-        // TODO: Implementar actualización con lógica de stock
         return null;
     }
 
     public void eliminarOrden(String id, String emailUsuario) {
-        // TODO: Implementar eliminación lógica y reversión de stock
     }
 
 

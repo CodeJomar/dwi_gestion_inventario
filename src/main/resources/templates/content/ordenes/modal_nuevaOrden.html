@@ -49,9 +49,12 @@
                                 <label for="order-motivo" class="form-label required">Motivo</label>
                                 <select id="order-motivo" class="form-select" required th:field="*{motivo}">
                                     <option value="">-- Seleccione motivo --</option>
-                                    <option th:each="motivo : ${motivosOrden}"
-                                            th:value="${motivo}"
-                                            th:text="${motivo.displayName}"></option>
+
+                                    <option class="motivo-option" data-tipo="ENTRADA" value="REPOSICION">Reposición</option>
+                                    <option class="motivo-option" data-tipo="ENTRADA" value="DEVOLUCION">Devolución</option>
+
+                                    <option class="motivo-option" data-tipo="SALIDA" value="AJUSTE">Ajuste</option>
+                                    <option class="motivo-option" data-tipo="SALIDA" value="VENTA">Venta</option>
                                 </select>
                                 <p th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}" class="text-red-500 text-xs mt-1"></p>
                             </div>

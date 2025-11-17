@@ -24,91 +24,103 @@
 
             <nav th:replace="~{fragments/nav :: nav-productos}"></nav>
 
-            <div id="tab-products-content" data-tab-content="products" class="tabs-content tabs-content-active space-y-6">
-                <div id="products-header-actions" class="flex flex-col sm:flex-row gap-4 justify-between">
-                    <div class="flex flex-1 gap-4 flex-wrap">
-                        <div class="relative flex-1 max-w-full sm:max-w-sm">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" x2="16.65" y1="21" y2="16.65" />
-                            </svg>
-                            <input id="search-products" type="text" placeholder="Buscar productos..." class="input pl-10"
-                                   oninput="handleProductSearch(this.value)" />
-                        </div>
-
-                        <button class="btn btn-outline text-sm w-full sm:w-auto" onclick="toggleProductFilters()">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="h-4 w-4 mr-2">
-                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                            </svg>
-                            Filtros
-                        </button>
-                    </div>
-                    <button id="add-product-btn" class="btn btn-primary w-full sm:w-auto" onclick="toggleModal(true)">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="h-4 w-4 mr-2">
-                            <path d="M12 5v14" />
-                            <path d="M5 12h14" />
-                        </svg>
-                        Agregar Producto
-                    </button>
-                </div>
-
-
-                <div id="product-filters-panel" class="card" style="display: none;">
-                    <div class="card-content p-4">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-foreground">Filtros</h3>
-                            <button onclick="clearProductFilters()" class="text-sm text-primary hover:underline">
-                                Limpiar filtros
+            <div id="tab-products-content" data-tab-content="products"
+                 class="tabs-content tabs-content-active space-y-6">
+                <form th:action="@{/auth/productos}" method="GET" class="space-y-6">
+                    <div id="products-header-actions" class="flex flex-col sm:flex-row gap-4 justify-between">
+                        <div class="flex flex-1 gap-4 flex-wrap">
+                            <div class="relative flex-1 max-w-full sm:max-w-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <line x1="21" x2="16.65" y1="21" y2="16.65"/>
+                                </svg>
+                                <input id="search-products" name="busqueda" type="text"
+                                       placeholder="Buscar en todos los productos..." class="input pl-10"
+                                       th:value="${busqueda}"/>
+                            </div>
+                            <button type="button" class="btn btn-outline text-sm w-full sm:w-auto"
+                                    onclick="toggleProductFilters()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="h-4 w-4 mr-2">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                                </svg>
+                                Filtros
                             </button>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-foreground mb-2">Categoría</label>
-                                <select id="filter-product-category" class="input w-full" onchange="applyProductFilters()">
-                                    <option value="">Todas</option>
-                                    <option value="CELULARES">Celulares</option>
-                                    <option value="COMPUTO">Computo</option>
-                                    <option value="AUDIO">Audio</option>
-                                    <option value="TV">TV</option>
-                                    <option value="GAMER">Gamer</option>
-                                    <option value="CAMARA">Cámara</option>
-                                    <option value="ACCESORIOS">Accesorios</option>
-                                </select>
+                        <button id="add-product-btn" type="button" class="btn btn-primary w-full sm:w-auto"
+                                onclick="toggleModal(true)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="h-4 w-4 mr-2">
+                                <path d="M12 5v14"/>
+                                <path d="M5 12h14"/>
+                            </svg>
+                            Agregar Producto
+                        </button>
+                    </div>
+
+                    <div id="product-filters-panel" class="card" style="display: none;">
+                        <div class="card-content p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold text-foreground">Filtros</h3>
+                                <a th:href="@{/auth/productos}" class="text-sm text-primary hover:underline">Limpiar
+                                    filtros</a>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-foreground mb-2">Estado</label>
-                                <select id="filter-product-status" class="input w-full" onchange="applyProductFilters()">
-                                    <option value="">Todos</option>
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="INACTIVO">Inactivo</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-foreground mb-2">Precio mínimo</label>
-                                <input type="number" id="filter-product-price-min" class="input w-full" placeholder="0" step="0.01"
-                                       onchange="applyProductFilters()">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-foreground mb-2">Precio máximo</label>
-                                <input type="number" id="filter-product-price-max" class="input w-full" placeholder="9999" step="0.01"
-                                       onchange="applyProductFilters()">
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-foreground mb-2">Categoría</label>
+                                    <select id="filter-product-category" name="categoria" class="input w-full">
+                                        <option value="">Todas</option>
+                                        <option th:each="cat : ${categorias}"
+                                                th:value="${cat.name()}"
+                                                th:text="${cat.displayName}"
+                                                th:selected="${cat.name() == categoria}"></option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-foreground mb-2">Estado</label>
+                                    <select id="filter-product-status" name="estado" class="input w-full">
+                                        <option value="">Todos</option>
+                                        <option th:each="est : ${estados}"
+                                                th:value="${est.name()}"
+                                                th:text="${est.displayName}"
+                                                th:selected="${est.name() == estado}"></option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-foreground mb-2">Precio mínimo</label>
+                                    <input type="number" id="filter-product-price-min" name="precioMin"
+                                           class="input w-full" placeholder="0" step="0.01"
+                                           th:value="${precioMin}">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-foreground mb-2">Precio máximo</label>
+                                    <input type="number" id="filter-product-price-max" name="precioMax"
+                                           class="input w-full" placeholder="9999" step="0.01"
+                                           th:value="${precioMax}">
+                                </div>
+                                <div class="flex items-end">
+                                    <button type="submit" class="btn btn-primary w-full">Aplicar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <div id="products-grid-container" class="products-grid">
-
-                    <div th:each="producto : ${productos}" class="product-card">
+                    <div th:each="producto : ${productos.content}"
+                         class="product-card"
+                         th:data-categoria="${producto.categoria.name()}"
+                         th:data-estado="${producto.estado.name()}"
+                         th:data-precio="${producto.precio}">
                         <div class="product-image">
                             <img th:src="${producto.imagen != null ? producto.imagen : '/img/default-product.png'}"
                                  th:alt="${producto.nombre}"
@@ -123,71 +135,104 @@
                                       Estado
                                 </span>
                             </div>
-
                             <div class="product-category" th:text="${producto.categoria.displayName}">Categoría</div>
                             <div class="product-footer">
-                                <div class="product-price" th:text="'S/ ' + ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')}">S/ 0.00</div>
+                                <div class="product-price"
+                                     th:text="'S/ ' + ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')}">
+                                    S/ 0.00
+                                </div>
                                 <div class="product-stock" th:text="'Stock: ' + ${producto.stock}">Stock: 0</div>
                             </div>
                         </div>
-
                         <div class="product-actions">
-
-                            <a th:href="@{/auth/productos(editarId=${producto.id})}" class="btn btn-outline btn-edit">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            <a th:href="@{/auth/productos(editarId=${producto.id}, page=${productos.number}, busqueda=${busqueda}, categoria=${categoria}, estado=${estado}, precioMin=${precioMin}, precioMax=${precioMax})}"
+                               class="btn btn-outline btn-edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2">
+                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
                                 Editar
                             </a>
-
                             <th:block th:if="${producto.estado.name() == 'ACTIVO'}">
                                 <button type="button" class="btn btn-outline btn-delete"
                                         th:data-id="${producto.id}"
                                         th:data-nombre="${producto.nombre}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 mr-2">
+                                        <path d="M3 6h18"/>
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                    </svg>
                                     Eliminar
                                 </button>
-
                                 <form th:id="'form-delete-' + ${producto.id}"
                                       th:action="@{/auth/productos/eliminar}"
                                       method="post" style="display: none;">
-                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                    <input type="hidden" name="id" th:value="${producto.id}" />
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                    <input type="hidden" name="id" th:value="${producto.id}"/>
                                 </form>
                             </th:block>
                         </div>
                     </div>
                 </div>
 
-                <div id="no-products-found" class="card text-center py-12" style="display: none;">
+                <div id="no-products-found" class="card text-center py-12"
+                     style="display: none;"
+                     th:style="${productos.totalElements == 0} ? 'display: block;' : 'display: none;'">
                     <div class="card-content">
-
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="h-12 w-12 text-muted-foreground mx-auto mb-4">
-                            <path d="m7.5 4.27 9 5.15" />
-                            <path d="m21 8-9 5.15-9-5.15" />
-                            <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5" />
-                            <path d="m12 22.5V13" />
+                            <path d="m7.5 4.27 9 5.15"/>
+                            <path d="m21 8-9 5.15-9-5.15"/>
+                            <path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5"/>
+                            <path d="m12 22.5V13"/>
                         </svg>
                         <h3 class="text-lg font-semibold mb-2 text-foreground">No se encontraron productos</h3>
-                        <p class="text-muted-foreground mb-4">No hay productos que coincidan con tu búsqueda.</p>
+                        <p class="text-muted-foreground mb-4"
+                           th:text="${busqueda != null || categoria != null || estado != null || precioMin != null || precioMax != null} ? 'No hay productos que coincidan con tu búsqueda.' : 'No hay productos registrados aún.'"></p>
                         <button class="btn btn-primary" onclick="toggleModal(true)">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="h-4 w-4 mr-2">
-                                <path d="M12 5v14" />
-                                <path d="M5 12h14" />
-                            </svg>
                             Agregar Primer Producto
                         </button>
                     </div>
                 </div>
-            </div>
 
+                <div class="flex items-center justify-between mt-6 border-t border-border pt-4"
+                     th:if="${productos.totalElements > 0}">
+                    <p class="text-sm text-muted-foreground">
+                        Mostrando
+                        <span class="font-medium text-foreground"
+                              th:text="${productos.size * productos.number + 1}"></span>
+                        -
+                        <span class="font-medium text-foreground"
+                              th:text="${productos.size * productos.number + productos.numberOfElements}"></span>
+                        de
+                        <span class="font-medium text-foreground" th:text="${productos.totalElements}"></span>
+                        registros
+                    </p>
+                    <div class="flex items-center gap-2" th:if="${productos.totalPages > 1}">
+                        <a th:href="@{/auth/productos(page=${productos.number - 1}, busqueda=${busqueda}, categoria=${categoria}, estado=${estado}, precioMin=${precioMin}, precioMax=${precioMax})}"
+                           th:classappend="${productos.first} ? 'pointer-events-none opacity-50' : ''"
+                           class="btn btn-outline h-9 px-3 text-xs">
+                            Anterior
+                        </a>
+                        <th:block th:each="i : ${#numbers.sequence(0, productos.totalPages - 1)}">
+                            <a th:href="@{/auth/productos(page=${i}, busqueda=${busqueda}, categoria=${categoria}, estado=${estado}, precioMin=${precioMin}, precioMax=${precioMax})}"
+                               th:text="${i + 1}"
+                               class="btn h-9 w-9 p-0 flex items-center justify-center text-xs transition-colors"
+                               th:classappend="${i == productos.number} ? 'btn-primary' : 'btn-outline hover:bg-accent'">
+                            </a>
+                        </th:block>
+                        <a th:href="@{/auth/productos(page=${productos.number + 1}, busqueda=${busqueda}, categoria=${categoria}, estado=${estado}, precioMin=${precioMin}, precioMax=${precioMax})}"
+                           th:classappend="${productos.last} ? 'pointer-events-none opacity-50' : ''"
+                           class="btn btn-outline h-9 px-3 text-xs">
+                            Siguiente
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
-
-
     <div th:replace="~{content/productos/modal_agregarProducto :: modal-agregar-producto}"></div>
 </div>
 
@@ -196,34 +241,17 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-
     const abrirModal = /*[[${abrirModal}]]*/ false;
     if (abrirModal) {
         toggleModal(true);
     }
 
     const exito = /*[[${exito}]]*/ null;
+    if (exito) { Swal.fire({ icon: 'success', title: '¡Éxito!', text: exito, confirmButtonText: 'Aceptar' }); }
+
     const error = /*[[${error}]]*/ null;
-
-    if (exito) {
-      Swal.fire({
-          icon: 'success',
-          title: '¡Éxito!',
-          text: exito,
-          confirmButtonText: 'Aceptar'
-      });
-    }
-
-    if (error) {
-      Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error,
-          confirmButtonText: 'Intentar de nuevo'
-      });
-    }
+    if (error) { Swal.fire({ icon: 'error', title: 'Error', text: error, confirmButtonText: 'Intentar de nuevo' }); }
     /*]]>*/
 </script>
 </body>
-
 </html>

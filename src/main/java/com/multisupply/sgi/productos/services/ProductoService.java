@@ -2,16 +2,24 @@ package com.multisupply.sgi.productos.services;
 
 import com.multisupply.sgi.productos.services.FileStorageService;
 import com.multisupply.sgi.productos.entities.dtos.ProductoDTO;
+import com.multisupply.sgi.productos.entities.enums.CategoriaProducto;
 import com.multisupply.sgi.productos.entities.enums.EstadoProducto;
 import com.multisupply.sgi.productos.entities.models.Producto;
 import com.multisupply.sgi.productos.repositories.ProductoRepository;
 import com.multisupply.sgi.usuarios.entities.models.Usuario;
 import com.multisupply.sgi.usuarios.repositories.UsuarioRepository;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +30,54 @@ public class ProductoService {
     private final ProductoRepository productoRepository;
     private final UsuarioRepository usuarioRepository;
     private final FileStorageService fileStorageService;
+
+    public Page<ProductoDTO> listarProductosPaginado(
+            String busqueda, String categoria, String estado,
+            Double precioMin, Double precioMax, Pageable pageable) {
+
+        Specification<Producto> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(busqueda)) {
+                predicates.add(cb.like(cb.lower(root.get("nombre")), "%" + busqueda.toLowerCase() + "%"));
+            }
+
+            if (StringUtils.hasText(categoria)) {
+                try {
+                    predicates.add(cb.equal(root.get("categoria"), CategoriaProducto.valueOf(categoria)));
+                } catch (IllegalArgumentException e) {
+
+                }
+            }
+
+            if (StringUtils.hasText(estado)) {
+                try {
+                    predicates.add(cb.equal(root.get("estado"), EstadoProducto.valueOf(estado)));
+                } catch (IllegalArgumentException e) {
+
+                }
+            }
+
+            if (precioMin != null && precioMin > 0) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("precio"), BigDecimal.valueOf(precioMin)));
+            }
+
+            if (precioMax != null && precioMax > 0) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("precio"), BigDecimal.valueOf(precioMax)));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return productoRepository.findAll(spec, pageable)
+                .map(this::mapToDTO);
+    }
+
+    public List<ProductoDTO> listarProductosActivos() {
+        return productoRepository.findAllByEstado(EstadoProducto.ACTIVO).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     public ProductoDTO crearProducto(ProductoDTO dto, String emailUsuario) {
@@ -74,14 +130,7 @@ public class ProductoService {
 
         producto.setEstado(EstadoProducto.INACTIVO);
         producto.setActualizadoPor(usuarioActual);
-
         productoRepository.save(producto);
-    }
-
-    public List<ProductoDTO> listarProductos() {
-        return productoRepository.findAll().stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
     }
 
     public ProductoDTO obtenerProductoPorId(String id) {

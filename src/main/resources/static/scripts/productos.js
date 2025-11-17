@@ -1,74 +1,9 @@
-let activeProductFilters = {
-  category: '',
-  status: '',
-  priceMin: null,
-  priceMax: null
-};
-
 function toggleProductFilters() {
   const panel = document.getElementById('product-filters-panel');
   if (panel.style.display === 'none' || panel.style.display === '') {
     panel.style.display = 'block';
   } else {
     panel.style.display = 'none';
-  }
-}
-
-function applyProductFilters() {
-  activeProductFilters.category = document.getElementById('filter-product-category').value;
-  activeProductFilters.status = document.getElementById('filter-product-status').value;
-  activeProductFilters.priceMin = parseFloat(document.getElementById('filter-product-price-min').value) || null;
-  activeProductFilters.priceMax = parseFloat(document.getElementById('filter-product-price-max').value) || null;
-
-  const searchTerm = document.getElementById('search-products').value;
-  handleProductSearch(searchTerm);
-}
-
-function clearProductFilters() {
-  document.getElementById('filter-product-category').value = '';
-  document.getElementById('filter-product-status').value = '';
-  document.getElementById('filter-product-price-min').value = '';
-  document.getElementById('filter-product-price-max').value = '';
-
-  activeProductFilters = {
-    category: '',
-    status: '',
-    priceMin: null,
-    priceMax: null
-  };
-
-  const searchTerm = document.getElementById('search-products').value;
-  handleProductSearch(searchTerm);
-}
-
-function handleProductSearch(searchTerm) {
-  const term = searchTerm.toLowerCase();
-  const productCards = document.querySelectorAll('.product-card');
-  const noFoundMessage = document.getElementById('no-products-found');
-  let visibleProducts = 0;
-
-  productCards.forEach(card => {
-    const productName = card.querySelector('.product-name').textContent.toLowerCase();
-    const productCategory = card.querySelector('.product-category').textContent.toLowerCase();
-
-    const productStatusText = card.querySelector('.badge').textContent.toUpperCase();
-    const statusValue = activeProductFilters.status.toUpperCase();
-
-    const matchesSearch = productName.includes(term) || productCategory.includes(term);
-
-    const matchesCategory = !activeProductFilters.category || productCategory.includes(activeProductFilters.category.toLowerCase());
-    const matchesStatus = !statusValue || productStatusText === statusValue;
-
-    if (matchesSearch && matchesCategory && matchesStatus) {
-      card.style.display = 'block';
-      visibleProducts++;
-    } else {
-      card.style.display = 'none';
-    }
-  });
-
-  if (noFoundMessage) {
-    noFoundMessage.style.display = visibleProducts === 0 ? 'block' : 'none';
   }
 }
 

@@ -70,10 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const overlay = document.getElementById('modal-overlay');
       if (overlay) {
         overlay.classList.remove('active');
+
         const form = document.getElementById('new-order-form');
         if (form) {
             form.reset();
         }
+
+        filtrarMotivos();
+
         if (window.location.search.includes("abrirModal")) {
             window.history.pushState({}, '', '/auth/ordenes');
         }
@@ -119,7 +123,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fecha = new Date(orden.fechaCreacion);
         document.getElementById('detalle-fecha').textContent = fecha.toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+
         document.getElementById('detalle-monto').textContent = `S/ ${orden.monto.toFixed(2)}`;
+    }
+
+    const tipoOrdenSelect = document.getElementById('order-tipo');
+    const motivoOrdenSelect = document.getElementById('order-motivo');
+    const motivoOptions = motivoOrdenSelect ? motivoOrdenSelect.querySelectorAll('.motivo-option') : [];
+
+    function filtrarMotivos() {
+        if (!tipoOrdenSelect || !motivoOrdenSelect) return;
+
+        const tipoSeleccionado = tipoOrdenSelect.value;
+
+        motivoOrdenSelect.value = "";
+
+        motivoOptions.forEach(option => {
+            if (tipoSeleccionado === "") {
+                option.style.display = 'none';
+            } else if (option.dataset.tipo === tipoSeleccionado) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
+
+    filtrarMotivos();
+
+    if (tipoOrdenSelect) {
+        tipoOrdenSelect.addEventListener('change', filtrarMotivos);
     }
 
     const form = document.getElementById('new-order-form');
@@ -154,7 +187,17 @@ document.addEventListener('DOMContentLoaded', () => {
             abrirModalDetalle();
 
             try {
-                const response = await fetch(`/api/ordenes/${id}`);
+                const csrfToken = document.querySelector('input[name="_csrf"]').value;
+                const csrfHeader = document.querySelector('input[name="_csrf"]').name;
+
+                const response = await fetch(`/api/ordenes/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        [csrfHeader]: csrfToken
+                    }
+                });
+
                 if (!response.ok) {
                     throw new Error('No se pudo encontrar la orden.');
                 }

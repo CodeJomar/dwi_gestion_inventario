@@ -1,13 +1,17 @@
 package com.multisupply.sgi.productos.controllers;
 
+import com.multisupply.sgi.productos.services.FileStorageService;
 import com.multisupply.sgi.productos.entities.dtos.ProductoDTO;
 import com.multisupply.sgi.productos.entities.enums.CategoriaProducto;
 import com.multisupply.sgi.productos.entities.enums.EstadoProducto;
-import com.multisupply.sgi.productos.services.FileStorageService;
 import com.multisupply.sgi.productos.services.ProductoService;
 import com.multisupply.sgi.usuarios.entities.models.Usuario;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,15 +31,31 @@ public class ProductoController {
     @GetMapping
     public String mostrarPaginaProductos(
             Model model,
-            @RequestParam(value = "editarId", required = false) String editarId) {
+            @RequestParam(value = "editarId", required = false) String editarId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(required = false) String busqueda,
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) String estado,
+            @RequestParam(required = false) Double precioMin,
+            @RequestParam(required = false) Double precioMax
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("fechaCreacion").descending());
+        Page<ProductoDTO> productosPage = productoService.listarProductosPaginado(
+                busqueda, categoria, estado, precioMin, precioMax, pageable
+        );
 
-        model.addAttribute("productos", productoService.listarProductos());
+        model.addAttribute("productos", productosPage);
         model.addAttribute("categorias", CategoriaProducto.values());
         model.addAttribute("estados", EstadoProducto.values());
+        model.addAttribute("busqueda", busqueda);
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("estado", estado);
+        model.addAttribute("precioMin", precioMin);
+        model.addAttribute("precioMax", precioMax);
 
         if (model.containsAttribute("productoForm")) {
-        }
-        else if (editarId != null) {
+        } else if (editarId != null) {
             try {
                 model.addAttribute("productoForm", productoService.obtenerProductoPorId(editarId));
                 model.addAttribute("isEditMode", true);
@@ -45,14 +65,12 @@ public class ProductoController {
                 model.addAttribute("productoForm", new ProductoDTO());
                 model.addAttribute("isEditMode", false);
             }
-        }
-        else {
+        } else {
             ProductoDTO nuevoProducto = new ProductoDTO();
             nuevoProducto.setEstado(EstadoProducto.ACTIVO);
             model.addAttribute("productoForm", nuevoProducto);
             model.addAttribute("isEditMode", false);
         }
-
         return "productos";
     }
 
@@ -62,12 +80,14 @@ public class ProductoController {
             BindingResult result,
             @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
             RedirectAttributes redirect,
-            @AuthenticationPrincipal Usuario usuarioLogueado,
-            Model model) {
+            @AuthenticationPrincipal Usuario usuarioLogueado) {
 
         if (result.hasErrors()) {
-            model.addAttribute("abrirModal", true);
-            return mostrarPaginaProductos(model, null);
+            redirect.addFlashAttribute("productoForm", dto);
+            redirect.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "productoForm", result);
+            redirect.addFlashAttribute("isEditMode", false);
+            redirect.addFlashAttribute("abrirModal", true);
+            return "redirect:/auth/productos";
         }
 
         try {
@@ -87,7 +107,6 @@ public class ProductoController {
             redirect.addFlashAttribute("isEditMode", false);
             redirect.addFlashAttribute("abrirModal", true);
         }
-
         return "redirect:/auth/productos";
     }
 
@@ -124,7 +143,6 @@ public class ProductoController {
             redirect.addFlashAttribute("isEditMode", true);
             redirect.addFlashAttribute("abrirModal", true);
         }
-
         return "redirect:/auth/productos";
     }
 
@@ -140,7 +158,6 @@ public class ProductoController {
         } catch (Exception e) {
             redirect.addFlashAttribute("error", "Error al desactivar el producto: " + e.getMessage());
         }
-
         return "redirect:/auth/productos";
     }
 }
