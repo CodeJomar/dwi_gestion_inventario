@@ -3,9 +3,9 @@ const Swal = window.Swal;
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".profile-form");
 
-    const fields = ["nombresApellidos", "dni", "fechaNacimiento", "telefono", "pais"];
+    const fields = ["Nombre-Completo", "DNI", "Fecha-Nacimiento", "Teléfono", "pais"];
 
-    const fechaNacimientoInput = document.getElementById("fechaNacimiento");
+    const fechaNacimientoInput = document.getElementById("Fecha-Nacimiento");
     const edadInput = document.getElementById("edad");
 
     fechaNacimientoInput.addEventListener("change", updateAgeCalculation);
