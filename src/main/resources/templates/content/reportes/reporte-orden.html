@@ -1,0 +1,25 @@
+<div class="report-card group" th:fragment="reporte-orden">
+  <div class="report-card-header">
+    <svg class="report-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  </div>
+  <div class="report-card-content">
+    <h3 class="text-xl font-semibold text-foreground mb-2">Reporte de Órdenes</h3>
+    <p class="text-sm text-muted-foreground mb-4">Obtén el historial completo de órdenes con estados, fechas y detalles de transacciones.</p>
+    <div class="flex items-center justify-between">
+      <!-- Changed badge to green color and button to link -->
+      <span class="text-xs font-medium text-excel-dark bg-excel-green px-3 py-1 rounded-full">Excel</span>
+      <a href="/auth/reportes/ordenes" class="download-link" data-report="ordenes">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" x2="12" y1="15" y2="3"/>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  </div>
+</div>

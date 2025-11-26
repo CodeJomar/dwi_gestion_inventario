@@ -1,0 +1,23 @@
+<div class="report-card group" th:fragment="reporte-producto">
+  <div class="report-card-header">
+    <svg class="report-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 2 L6 22 M18 2 L18 22 M3 4 L21 4 M3 10 L21 10 M3 16 L21 16"/>
+    </svg>
+  </div>
+  <div class="report-card-content">
+    <h3 class="text-xl font-semibold text-foreground mb-2">Reporte de Productos</h3>
+    <p class="text-sm text-muted-foreground mb-4">Descarga un listado completo de todos tus productos con detalles de inventario y precios.</p>
+    <div class="flex items-center justify-between">
+      <!-- Changed badge to green color and button to link -->
+      <span class="text-xs font-medium text-excel-dark bg-excel-green px-3 py-1 rounded-full">Excel</span>
+      <a href="/auth/reportes/productos" class="download-link" data-report="productos">
+        <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" x2="12" y1="15" y2="3"/>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="grid gap-4 md:grid-cols-4 mb-8" th:fragment="mini-stats-cards">
+  <div class="bg-card border border-border rounded-lg p-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-muted-foreground text-sm">Productos Activos</p>
+        <p class="text-2xl font-bold text-foreground mt-1" th:text="${tarjeta.productosActivos}"></p>
+      </div>
+      <svg class="w-10 h-10 text-primary opacity-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2 L6 22 M18 2 L18 22 M3 4 L21 4 M3 10 L21 10 M3 16 L21 16"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="bg-card border border-border rounded-lg p-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-muted-foreground text-sm">Órdenes de Entrada</p>
+        <p class="text-2xl font-bold text-foreground mt-1" th:text="${tarjeta.ordenesEntrada}"></p>
+      </div>
+      <svg class="w-10 h-10 text-primary opacity-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="bg-card border border-border rounded-lg p-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-muted-foreground text-sm">Órdenes de Salida</p>
+        <p class="text-2xl font-bold text-foreground mt-1" th:text="${tarjeta.ordenesSalida}"></p>
+      </div>
+      <svg class="w-10 h-10 text-primary opacity-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="bg-card border border-border rounded-lg p-4">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-muted-foreground text-sm">Ganancias</p>
+        <p class="text-2xl font-bold text-foreground mt-1" th:text="'S/ ' + ${#numbers.formatDecimal(tarjeta.ganancias, 1, 'COMMA', 2, 'POINT')}"></p>
+      </div>
+      <svg class="w-10 h-10 text-primary opacity-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="2" x2="12" y2="22"/>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+    </div>
+  </div>
+</div>

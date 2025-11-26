@@ -13,10 +13,10 @@ public class WebController {
         return "dashboard";
     }
 
-    @GetMapping("/reportes")
-    public String web4() {
-        return "reportes";
-    }
+//    @GetMapping("/reportes")
+//    public String web4() {
+//        return "reportes";
+//    }
 
 //    @GetMapping("/perfil")
 //    public String web5() { return "perfil"; }

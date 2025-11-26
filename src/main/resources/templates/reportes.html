@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MultiSupply S.A. - Reportes</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <th:block th:replace="~{fragments/links :: cdnLinks-up}"></th:block>
   <link rel="stylesheet" th:href="@{/styles/globals.css}">
   <link rel="stylesheet" th:href="@{/styles/reportes.css}">
 </head>
@@ -22,26 +22,40 @@
 
         <nav th:replace="~{fragments/nav :: nav-reportes}"></nav>
 
-        <div id="tab-reports-content" data-tab-content="reports" class="tabs-content tabs-content-active">
-          <div id="reports-content" class="space-y-6">
-            <h1 class="text-3xl font-bold mb-6 text-foreground">Panel de Reportes Empresariales</h1>
-            <div id="metrics-container" class="space-y-6">
-              <div id="key-metrics" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              </div>
+        <div class="space-y-6">
+          <div>
+            <h1 class="text-3xl font-bold text-foreground">Panel de Reportes</h1>
+            <p class="text-muted-foreground mt-2">Descarga los reportes en formato Excel de tu sistema</p>
+          </div>
 
-              <div id="available-reports-card" class="card">
-              </div>
+          <!-- Mini Stats Cards -->
+          <div th:replace="~{content/reportes/reporte-tarjeta :: mini-stats-cards}"></div>
 
-              <div id="quick-actions" class="grid gap-4 md:grid-cols-3">
-              </div>
+          <!-- Download Cards section moved down with space -->
+          <div class="space-y-6 pt-8 border-t border-border">
+
+            <!-- Reports Cards Grid -->
+            <div class="grid gap-6 md:grid-cols-3">
+
+              <!-- Productos Card -->
+              <div th:replace="~{content/reportes/reporte-producto :: reporte-producto}"></div>
+
+              <!-- Órdenes Card -->
+              <div th:replace="~{content/reportes/reporte-orden :: reporte-orden}"></div>
+
+              <!-- Usuarios Card -->
+              <div th:replace="~{content/reportes/reporte-usuario :: reporte-usuario}"></div>
+
             </div>
           </div>
+
         </div>
 
       </div>
     </main>
   </div>
 
+  <th:block th:replace="~{fragments/links :: cdnLinks-down}"></th:block>
   <script th:src="@{/scripts/main.js}"></script>
   <script th:src="@{/scripts/reportes.js}"></script>
 </body>
