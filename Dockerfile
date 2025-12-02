@@ -1,30 +1,29 @@
-# Usar la imagen oficial de OpenJDK 17 como base
-FROM openjdk:17-jdk-slim AS build
+# Etapa de construcción
+FROM eclipse-temurin:17-jdk-alpine AS build
 
-# Establecer el directorio de trabajo
+# Directorio de trabajo
 WORKDIR /app
 
-# Copiar el archivo pom.xml y descargar las dependencias con Maven
+# Copiar pom.xml y descargar las dependencias
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN ./mvnw dependency:go-offline || mvn dependency:go-offline
 
-# Copiar el resto del código fuente del proyecto
-COPY src /app/src
+# Copiar el código fuente
+COPY src ./src
 
-# Compilar y empaquetar la aplicación en un archivo JAR ejecutable
-RUN mvn clean package -DskipTests
+# Compilar y generar el jar
+RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
 
-# Usar una imagen base de OpenJDK 17 para la ejecución
-FROM openjdk:17-jdk-slim
+# Etapa final
+FROM eclipse-temurin:17-jre-alpine
 
-# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar el JAR generado desde el paso de construcción
+# Copiar el JAR creado
 COPY --from=build /app/target/sgi-0.0.1-SNAPSHOT.jar /app/sgi.jar
 
-# Exponer el puerto en el que la aplicación Spring Boot corre (por defecto 8080)
+# Puerto de Spring Boot
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
+# Ejecutar la app
 ENTRYPOINT ["java", "-jar", "/app/sgi.jar"]
