@@ -1,29 +1,25 @@
-# Etapa de construcción
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Etapa de construcción (build)
+FROM maven:3.9-eclipse-temurin-17 AS build
 
 # Directorio de trabajo
 WORKDIR /app
 
-# Copiar pom.xml y descargar las dependencias
+# Copiar archivos del proyecto
 COPY pom.xml .
-RUN ./mvnw dependency:go-offline || mvn dependency:go-offline
-
-# Copiar el código fuente
 COPY src ./src
 
-# Compilar y generar el jar
-RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
+# Compilar y empacar el JAR
+RUN mvn -B -DskipTests clean package
 
-# Etapa final
+# Etapa final (runtime)
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-# Copiar el JAR creado
-COPY --from=build /app/target/sgi-0.0.1-SNAPSHOT.jar /app/sgi.jar
+# Copiar el JAR construido
+COPY --from=build /app/target/*.jar app.jar
 
-# Puerto de Spring Boot
+# Exponer el puerto (por defecto 8080)
 EXPOSE 8080
 
-# Ejecutar la app
-ENTRYPOINT ["java", "-jar", "/app/sgi.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
