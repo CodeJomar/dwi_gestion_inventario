@@ -1,0 +1,48 @@
+<div id="stats-cards-container" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4" th:fragment="dashboard-tarjetas">
+
+    <!-- Restored from old design with space-y-0 pb-2 structure and removed percentages -->
+    <div class="card hover:shadow-lg transition-shadow">
+        <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 class="card-title text-sm font-medium">Productos Activos</h3>
+            <div class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m7.5 4.27 9 5.15"></path><path d="m21 8-9 5.15-9-5.15"></path><path d="M3.3 7 L12 12.5 M20.7 7 L12 12.5"></path><path d="m12 22.5V13"></path></svg></div>
+        </div>
+        <div class="card-content pt-2">
+            <div id="card-total-productos" class="text-2xl font-bold text-foreground">0</div>
+            <p class="text-xs text-muted-foreground">Productos listos para vender</p>
+        </div>
+    </div>
+
+    <div class="card hover:shadow-lg transition-shadow">
+        <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 class="card-title text-sm font-medium">Ingresos del Año</h3>
+            <div class="text-accent"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6"></path></svg></div>
+        </div>
+        <div class="card-content pt-2">
+            <div id="card-ingresos-anuales" class="text-2xl font-bold text-foreground">S/ 0.00</div>
+            <p class="text-xs text-muted-foreground">Total por órdenes de salida</p>
+        </div>
+    </div>
+
+    <div class="card hover:shadow-lg transition-shadow">
+        <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 class="card-title text-sm font-medium">Ingresos del Mes</h3>
+            <div class="text-chart-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+        </div>
+        <div class="card-content pt-2">
+            <div id="card-ingresos-mensuales" class="text-2xl font-bold text-foreground">S/ 0.00</div>
+            <p class="text-xs text-muted-foreground">Ingresos recientes</p>
+        </div>
+    </div>
+
+    <div class="card hover:shadow-lg transition-shadow">
+        <div class="card-header flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 class="card-title text-sm font-medium">Stock Bajo</h3>
+            <div class="text-destructive"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m21.73 18.23-10-17a1.99 1.99 0 0 0-3.46 0l-10 17a1.99 1.99 0 0 0 1.73 2.77h20a1.99 1.99 0 0 0 1.73-2.77z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div>
+        </div>
+        <div class="card-content pt-2">
+            <div id="card-stock-bajo" class="text-2xl font-bold text-foreground">0</div>
+            <p class="text-xs text-muted-foreground">Productos con inventario crítico</p>
+        </div>
+    </div>
+
+</div>

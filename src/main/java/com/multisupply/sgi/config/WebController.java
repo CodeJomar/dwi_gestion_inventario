@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class WebController {
 
-    @GetMapping("/dashboard")
-    public String web1() {
-        return "dashboard";
-    }
+//    @GetMapping("/dashboard")
+//    public String web1() {
+//        return "dashboard";
+//    }
 
 //    @GetMapping("/reportes")
 //    public String web4() {

@@ -27,13 +27,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/scripts/**", "/styles/**", "/img/**")
+                .requestMatchers("/scripts/**", "/styles/**", "/img/**", "/static/**")
                 .permitAll()
                 
-                .requestMatchers("/", "/registro", "/cambiar-password")
+                .requestMatchers("/", "/registro", "/cambiar-password", "/error")
                 .permitAll()
                 
-                .requestMatchers( "/auth/dashboard", "/auth/productos", "/auth/ordenes",  "/auth/perfil")
+                .requestMatchers( "/auth/dashboard/**", "/auth/productos", "/auth/ordenes",  "/auth/perfil")
                 .hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_EMPLEADO")
 
                 .requestMatchers(HttpMethod.GET, "/api/ordenes/**") // -----------------

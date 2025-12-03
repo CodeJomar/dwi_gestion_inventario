@@ -1,0 +1,21 @@
+<div class="card" th:fragment="Dashboard-Barras">
+    <div class="card-header">
+        <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="h-5 w-5 text-destructive">
+                <path d="m21.73 18.23-10-17a1.99 1.99 0 0 0-3.46 0l-10 17a1.99 1.99 0 0 0 1.73 2.77h20a1.99 1.99 0 0 0 1.73-2.77z"></path>
+                <path d="M12 9v4"></path>
+                <path d="M12 17h.01"></path>
+            </svg>
+            Productos con Stock Bajo
+        </h2>
+        <p class="card-description">Productos que necesitan reabastecimiento urgente</p>
+    </div>
+
+    <!-- Aquí se llenarán los productos dinámicamente -->
+    <div id="low-stock-list" class="card-content space-y-4">
+        <!-- JS generará las tarjetas aquí -->
+    </div>
+</div>
