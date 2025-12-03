@@ -1,0 +1,21 @@
+<div class="card" th:fragment="Dashboard-Ordenes">
+    <div class="card-header">
+        <h2 class="text-lg font-semibold flex items-center gap-2 text-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="h-5 w-5 text-primary">
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6"></path>
+            </svg>
+            Órdenes Recientes
+        </h2>
+        <p class="card-description">Últimas órdenes procesadas en el sistema</p>
+    </div>
+
+    <!-- Este div será llenado dinámicamente -->
+    <div id="recent-orders-list" class="card-content space-y-4">
+        <!-- Aquí JS insertará las 4 órdenes recientes -->
+    </div>
+</div>

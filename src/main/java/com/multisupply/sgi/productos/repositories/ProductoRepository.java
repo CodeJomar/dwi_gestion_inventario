@@ -11,7 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, String>, JpaSpecificationExecutor<Producto> {
+
     Optional<Producto> findByNombre(String nombre);
+    
     List<Producto> findAllByEstado(EstadoProducto estado);
+    
     long countByEstado(EstadoProducto estado);
+    
+    long countByStockLessThan(int cantidad);
+    
 }
